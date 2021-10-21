@@ -1,0 +1,47 @@
+{
+  "resource": "/trade-graph/{account-id}",
+  "path": "/trade-graph/account-id=bec75c28-d95a-52a9-8edf-d0947a133eda",
+  "httpMethod": "GET",
+  "headers": null,
+  "multiValueHeaders": null,
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": {
+    "account-id": "bec75c28-d95a-52a9-8edf-d0947a133eda"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "48k8be",
+    "resourcePath": "/trade-graph/{account-id}",
+    "httpMethod": "GET",
+    "extendedRequestId": "HduTxGdLoAMFtSg=",
+    "requestTime": "19/Oct/2021:16:50:19 +0000",
+    "path": "/trade-graph/{account-id}",
+    "accountId": "130240313905",
+    "protocol": "HTTP/1.1",
+    "stage": "test-invoke-stage",
+    "domainPrefix": "testPrefix",
+    "requestTimeEpoch": 1634662219120,
+    "requestId": "51cd3f30-9360-469d-a2d7-07ef8e400e0a",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "cognitoIdentityId": null,
+      "apiKey": "test-invoke-api-key",
+      "principalOrgId": null,
+      "cognitoAuthenticationType": null,
+      "userArn": "arn:aws:iam::130240313905:root",
+      "apiKeyId": "test-invoke-api-key-id",
+      "userAgent": "aws-internal/3 aws-sdk-java/1.12.76 Linux/5.4.134-73.228.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.302-b08 java/1.8.0_302 vendor/Oracle_Corporation cfg/retry-mode/standard",
+      "accountId": "130240313905",
+      "caller": "130240313905",
+      "sourceIp": "test-invoke-source-ip",
+      "accessKey": "ASIAR4UXNPIYST2NVRUJ",
+      "cognitoAuthenticationProvider": null,
+      "user": "130240313905"
+    },
+    "domainName": "testPrefix.testDomainName",
+    "apiId": "yzn99f7f90"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}

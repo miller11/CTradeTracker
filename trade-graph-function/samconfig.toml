@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "trade-graph-function"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-qaou3cfvt0qi"
+s3_prefix = "trade-graph-function"
+region = "us-east-1"
+profile = "ross-amplify"
+capabilities = "CAPABILITY_IAM"

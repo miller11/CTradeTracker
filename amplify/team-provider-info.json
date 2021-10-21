@@ -1,0 +1,20 @@
+{
+  "test": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-tradetracker-test-140340-authRole",
+      "UnauthRoleArn": "arn:aws:iam::130240313905:role/amplify-tradetracker-test-140340-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::130240313905:role/amplify-tradetracker-test-140340-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-tradetracker-test-140340-deployment",
+      "UnauthRoleName": "amplify-tradetracker-test-140340-unauthRole",
+      "StackName": "amplify-tradetracker-test-140340",
+      "StackId": "arn:aws:cloudformation:us-east-1:130240313905:stack/amplify-tradetracker-test-140340/1bb03720-3046-11ec-a324-0ea7d7533af5",
+      "AmplifyAppId": "dddu9jneubkdy"
+    },
+    "categories": {
+      "auth": {
+        "tradetrackera239b6fd": {}
+      }
+    }
+  }
+}
