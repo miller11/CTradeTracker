@@ -66,7 +66,10 @@ def get_sells(transactions):
 
 
 def handler(event, context):
-    print(event)  # Log the event
+    print(json.dumps(event))  # Log the event
+    print(event['requestContext']['accountId'])  # Log the context
+
+    # todo throw 403 if no user account
 
     if event['pathParameters']['account-id'] is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
@@ -103,9 +106,12 @@ def handler(event, context):
     return {
         "statusCode": 200,
         "headers": {
-            "Access-Control-Allow-Origin": "*",  # Required for CORS support to work
-            "Access-Control-Allow-Headers": "Content-Type, Authorization, Origin, X-Auth-Token",
-            "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,X-Amz-Security-Token,Authorization,X-Api-Key,"
+                                            "X-Requested-With,Accept,Access-Control-Allow-Methods,"
+                                            "Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+            "Access-Control-Allow-Origin": "http://localhost:8080",
+            "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+            "X-Requested-With": "*",
             "Access-Control-Allow-Credentials": True  # Required for cookies, authorization headers with HTTPS
         },
         "body": json.dumps({

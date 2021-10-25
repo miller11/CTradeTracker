@@ -1,0 +1,5 @@
+boto3~=1.18.47
+botocore~=1.21.47
+yfinance
+plotly~=4.12
+pytz
