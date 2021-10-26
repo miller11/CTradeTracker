@@ -67,7 +67,7 @@ def get_sells(transactions):
 
 def handler(event, context):
     print(json.dumps(event))  # Log the event
-    print(event['requestContext']['accountId'])  # Log the context
+    print(event['requestContext']['accountId'])  # Log the account id
 
     # todo throw 403 if no user account
 

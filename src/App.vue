@@ -37,10 +37,10 @@
       <div v-if="activeAccount !== undefined">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" :class="{ active: navTab === NavTab.TRADE_GRAPH }" @click="navTab = NavTab.TRADE_GRAPH">Trade(s)</a>
+            <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }" @click="activeNavTab = NavTab.TRADE_GRAPH">Trade(s)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :class="{ active: navTab === NavTab.GAIN_LOSS }" @click="navTab = NavTab.GAIN_LOSS">Gain/Loss</a>
+            <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }" @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
           </li>
         </ul>
 
@@ -50,6 +50,13 @@
               <b-spinner variant="success" label="Loading"></b-spinner>
             </div>
             <div id="graph"></div>
+          </div>
+        </div>
+
+        <div class="row" v-if="transactions !== undefined">
+          <div class="col-12">
+            <h3>Transactions</h3>
+            <b-table striped hover :items="transactions" :fields="transactions_fields"></b-table>
           </div>
         </div>
 
@@ -75,6 +82,8 @@ const NavTab = {
   GAIN_LOSS: 1
 }
 
+const transactions_fields = ['date', 'operation', 'amount', 'currency_value']
+
 export default {
   name: 'AuthStateApp',
   created() {
@@ -89,9 +98,11 @@ export default {
       unsubscribeAuth: undefined,
       accounts: undefined,
       activeAccount: undefined,
+      transactions: undefined,
       dataLoading: false,
-      navTab: NavTab.TRADE_GRAPH,
-      NavTab
+      activeNavTab: NavTab.TRADE_GRAPH,
+      NavTab,
+      transactions_fields
     }
   },
   methods: {
@@ -130,12 +141,32 @@ export default {
         }
       }
 
+      if(this.activeNavTab === NavTab.TRADE_GRAPH) {
+        this.getTransactions(); // get transactions for the trade graph table
+      } else {
+        this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
+      }
+
       axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/trade-graph/' + this.activeAccount.account_id, requestData)
           .then(response => {
                 const figure = JSON.parse(response.data.message);
 
                 this.dataLoading = false
                 Plotly.newPlot('graph', figure.data, figure.layout);
+              }
+          )
+    },
+    getTransactions() {
+      const token = this.currentUser.signInUserSession.idToken.jwtToken
+      const requestData = {
+        headers: {
+          Authorization: token
+        }
+      }
+
+      axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, requestData)
+          .then(response => {
+                this.transactions =  response.data.data;
               }
           )
     },
@@ -159,7 +190,7 @@ export default {
     }
   },
   watch: {
-    navTab: function () {
+    activeNavTab: function () {
       this.getGraph();
     },
     activeAccount: function () {

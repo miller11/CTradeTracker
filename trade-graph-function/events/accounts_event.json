@@ -1,13 +1,12 @@
 {
-  "resource": "/trade-graph/{account-id}",
-  "path": "/trade-graph/bec75c28-d95a-52a9-8edf-d0947a133eda",
+  "resource": "/accounts",
+  "path": "/accounts",
   "httpMethod": "GET",
   "headers": {
     "Accept": "application/json, text/plain, */*",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "en-US,en;q=0.9",
-    "Authorization": "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiJjZDY3ZjRjOC1mZjhhLTQ5NTUtOGQ4NC1mMjk5OWU0NjlkYjciLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiNGVjYzIxNDEtNjg0Yi00ZjNjLWI4YWUtY2E2ZWFmMTkwMzM2IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ5MzYzNzAsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTYzNTAwNDczMywiaWF0IjoxNjM1MDAxMTMzLCJqdGkiOiI0NTNjOWYzNy0zOTZlLTQyMDAtYWFiOC05ZWE3ZTFjMTAzYjgiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.ifl8wSnsOSnwkXrR1y0X7h3IJl3jflDwK3mxF-C1qaJsr3nT9ZXYlSrKGPSHcVsvX7s1NcS8YcdvxT3FKwjtyOMdTRnEIPJ8bbfSPd9oTXpKA7xKXjkn_KuThGDZ50Ivoyc_qsaAIOCrIPKaxH80f9mI2LuvUNyuk1fPF7Qsfl01SbC2wP2CBkFh-HxeFqTxI21rjh0dxHlKK5CaNsiMXDA1aIKu9l0vqBfOvVdBoUsrccrg4sZl-yfGJtSkNnBcJbLAuvrNeOKMfw1HGmH4mKr1PP3hPJIfKh-O4nVJVzrAnzbveJ2UN0non8wSko7zJ9TJ3lwbt7JNgre4zQ8SEg",
-    "cache-control": "no-cache",
+    "Authorization": "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiJkY2VmNTg4OS1mMzg0LTQ0YzQtYTg2MC0xNGFjZmM3ZDQ0ZTciLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiMjdjZjA5YzgtMjgzMC00NjAxLWEzOTItZmEyZjMxYjAxNTI5IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzUxODM2NDIsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTYzNTE5MTEyOCwiaWF0IjoxNjM1MTg3NTI4LCJqdGkiOiI4NWU2ZDBjYy0wNmM5LTQwOTItOTAxOS0yYmQ3YzAzYWYzZWUiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.bqjvyQ7Dh1fadkZ5cO1-yGcHiu7MXKDv8TQNlslKmSBDFUma3aLiQxlbRO7txY0KWT2W1OVa8N-L0NfArnVQvnxK2cDiM0YW81I3GBh7od47-6ZUwnPcU0eBR1TwQZHpMD3k5wmeyN0BKH3DhfX2mPMXoABtBvSM5UsQEZuInedH2cifKUAi8nwPBn_WEiQmOuAAOYL5-u6XkH-Z6BQCFOZfZr-hz1AuPix0nuMu4cri1pIFd_ROcEJ7q0ozVOt6AzMIDWNcuYNQPflIF9UpCwe-X-E_pDPzCbNDytV-goMp09dYU5-xUhU6LX_GxGyR80stC1pfyKB7Fos57m-nCQ",
     "CloudFront-Forwarded-Proto": "https",
     "CloudFront-Is-Desktop-Viewer": "true",
     "CloudFront-Is-Mobile-Viewer": "false",
@@ -17,7 +16,6 @@
     "dnt": "1",
     "Host": "2q0agbdysd.execute-api.us-east-1.amazonaws.com",
     "origin": "http://localhost:8080",
-    "pragma": "no-cache",
     "Referer": "http://localhost:8080/",
     "sec-ch-ua": "\"Google Chrome\";v=\"95\", \"Chromium\";v=\"95\", \";Not A Brand\";v=\"99\"",
     "sec-ch-ua-mobile": "?0",
@@ -26,10 +24,10 @@
     "sec-fetch-mode": "cors",
     "sec-fetch-site": "cross-site",
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36",
-    "Via": "2.0 bd6463e19d96dd4ec7d842710b075951.cloudfront.net (CloudFront)",
-    "X-Amz-Cf-Id": "qxcsrm3f6BYs0x9RC4zkQUI48zMjb9iyIaShoGcNAFXUsqW3fk2viw==",
-    "X-Amzn-Trace-Id": "Root=1-61742690-749c52f9592cbed62c10d851",
-    "X-Forwarded-For": "66.129.216.94, 64.252.169.68",
+    "Via": "2.0 47d4e4669a874175b62f2fee0a0a3146.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Id": "MJTL-NVvGDAG0hUpUtZDI5tSZSWo8lD2U-z2K7ZgJl-O-PlSTyl06Q==",
+    "X-Amzn-Trace-Id": "Root=1-6176fb48-33828daf4be523f279a4cfed",
+    "X-Forwarded-For": "128.255.77.96, 64.252.185.140",
     "X-Forwarded-Port": "443",
     "X-Forwarded-Proto": "https"
   },
@@ -44,10 +42,7 @@
       "en-US,en;q=0.9"
     ],
     "Authorization": [
-      "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiJjZDY3ZjRjOC1mZjhhLTQ5NTUtOGQ4NC1mMjk5OWU0NjlkYjciLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiNGVjYzIxNDEtNjg0Yi00ZjNjLWI4YWUtY2E2ZWFmMTkwMzM2IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzQ5MzYzNzAsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTYzNTAwNDczMywiaWF0IjoxNjM1MDAxMTMzLCJqdGkiOiI0NTNjOWYzNy0zOTZlLTQyMDAtYWFiOC05ZWE3ZTFjMTAzYjgiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.ifl8wSnsOSnwkXrR1y0X7h3IJl3jflDwK3mxF-C1qaJsr3nT9ZXYlSrKGPSHcVsvX7s1NcS8YcdvxT3FKwjtyOMdTRnEIPJ8bbfSPd9oTXpKA7xKXjkn_KuThGDZ50Ivoyc_qsaAIOCrIPKaxH80f9mI2LuvUNyuk1fPF7Qsfl01SbC2wP2CBkFh-HxeFqTxI21rjh0dxHlKK5CaNsiMXDA1aIKu9l0vqBfOvVdBoUsrccrg4sZl-yfGJtSkNnBcJbLAuvrNeOKMfw1HGmH4mKr1PP3hPJIfKh-O4nVJVzrAnzbveJ2UN0non8wSko7zJ9TJ3lwbt7JNgre4zQ8SEg"
-    ],
-    "cache-control": [
-      "no-cache"
+      "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiJkY2VmNTg4OS1mMzg0LTQ0YzQtYTg2MC0xNGFjZmM3ZDQ0ZTciLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiMjdjZjA5YzgtMjgzMC00NjAxLWEzOTItZmEyZjMxYjAxNTI5IiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2MzUxODM2NDIsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTYzNTE5MTEyOCwiaWF0IjoxNjM1MTg3NTI4LCJqdGkiOiI4NWU2ZDBjYy0wNmM5LTQwOTItOTAxOS0yYmQ3YzAzYWYzZWUiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.bqjvyQ7Dh1fadkZ5cO1-yGcHiu7MXKDv8TQNlslKmSBDFUma3aLiQxlbRO7txY0KWT2W1OVa8N-L0NfArnVQvnxK2cDiM0YW81I3GBh7od47-6ZUwnPcU0eBR1TwQZHpMD3k5wmeyN0BKH3DhfX2mPMXoABtBvSM5UsQEZuInedH2cifKUAi8nwPBn_WEiQmOuAAOYL5-u6XkH-Z6BQCFOZfZr-hz1AuPix0nuMu4cri1pIFd_ROcEJ7q0ozVOt6AzMIDWNcuYNQPflIF9UpCwe-X-E_pDPzCbNDytV-goMp09dYU5-xUhU6LX_GxGyR80stC1pfyKB7Fos57m-nCQ"
     ],
     "CloudFront-Forwarded-Proto": [
       "https"
@@ -76,9 +71,6 @@
     "origin": [
       "http://localhost:8080"
     ],
-    "pragma": [
-      "no-cache"
-    ],
     "Referer": [
       "http://localhost:8080/"
     ],
@@ -104,16 +96,16 @@
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36"
     ],
     "Via": [
-      "2.0 bd6463e19d96dd4ec7d842710b075951.cloudfront.net (CloudFront)"
+      "2.0 47d4e4669a874175b62f2fee0a0a3146.cloudfront.net (CloudFront)"
     ],
     "X-Amz-Cf-Id": [
-      "qxcsrm3f6BYs0x9RC4zkQUI48zMjb9iyIaShoGcNAFXUsqW3fk2viw=="
+      "MJTL-NVvGDAG0hUpUtZDI5tSZSWo8lD2U-z2K7ZgJl-O-PlSTyl06Q=="
     ],
     "X-Amzn-Trace-Id": [
-      "Root=1-61742690-749c52f9592cbed62c10d851"
+      "Root=1-6176fb48-33828daf4be523f279a4cfed"
     ],
     "X-Forwarded-For": [
-      "66.129.216.94, 64.252.169.68"
+      "128.255.77.96, 64.252.185.140"
     ],
     "X-Forwarded-Port": [
       "443"
@@ -124,12 +116,10 @@
   },
   "queryStringParameters": null,
   "multiValueQueryStringParameters": null,
-  "pathParameters": {
-    "account-id": "bec75c28-d95a-52a9-8edf-d0947a133eda"
-  },
+  "pathParameters": null,
   "stageVariables": null,
   "requestContext": {
-    "resourceId": "tgnf9d",
+    "resourceId": "96wr3z",
     "authorizer": {
       "claims": {
         "sub": "70f772da-6555-41c9-818f-8d5b7b21b5eb",
@@ -137,35 +127,35 @@
         "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_l0UlD7ehn",
         "phone_number_verified": "false",
         "cognito:username": "70f772da-6555-41c9-818f-8d5b7b21b5eb",
-        "origin_jti": "cd67f4c8-ff8a-4955-8d84-f2999e469db7",
+        "origin_jti": "dcef5889-f384-44c4-a860-14acfc7d44e7",
         "aud": "77v39bd420bvk4mq3bgfgfu6kq",
-        "event_id": "4ecc2141-684b-4f3c-b8ae-ca6eaf190336",
+        "event_id": "27cf09c8-2830-4601-a392-fa2f31b01529",
         "token_use": "id",
-        "auth_time": "1634936370",
+        "auth_time": "1635183642",
         "phone_number": "+15555555555",
-        "exp": "Sat Oct 23 15:58:53 UTC 2021",
-        "iat": "Sat Oct 23 14:58:53 UTC 2021",
-        "jti": "453c9f37-396e-4200-aab8-9ea7e1c103b8",
+        "exp": "Mon Oct 25 19:45:28 UTC 2021",
+        "iat": "Mon Oct 25 18:45:28 UTC 2021",
+        "jti": "85e6d0cc-06c9-4092-9019-2bd7c03af3ee",
         "email": "llamaster11@gmail.com"
       }
     },
-    "resourcePath": "/trade-graph/{account-id}",
+    "resourcePath": "/accounts",
     "httpMethod": "GET",
-    "extendedRequestId": "Hqr2lHRfIAMF8yQ=",
-    "requestTime": "23/Oct/2021:15:13:20 +0000",
-    "path": "/Test/trade-graph/bec75c28-d95a-52a9-8edf-d0947a133eda",
+    "extendedRequestId": "HxwzUELkoAMFavA=",
+    "requestTime": "25/Oct/2021:18:45:28 +0000",
+    "path": "/Test/accounts",
     "accountId": "130240313905",
     "protocol": "HTTP/1.1",
     "stage": "Test",
     "domainPrefix": "2q0agbdysd",
-    "requestTimeEpoch": 1635002000332,
-    "requestId": "2d596603-2b6a-45ed-b15f-d2605683a84e",
+    "requestTimeEpoch": 1635187528222,
+    "requestId": "728245da-b36a-4a61-83a5-9a47b1444094",
     "identity": {
       "cognitoIdentityPoolId": null,
       "accountId": null,
       "cognitoIdentityId": null,
       "caller": null,
-      "sourceIp": "66.129.216.94",
+      "sourceIp": "128.255.77.96",
       "principalOrgId": null,
       "accessKey": null,
       "cognitoAuthenticationType": null,

@@ -19,8 +19,8 @@ Resources:
       Cors:
         AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
         AllowHeaders: "'Content-Type,X-Amz-Date,X-Amz-Security-Token,authorization,,X-Api-Key,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers'"
-        AllowOrigin: "'http://localhost:8080'"
-        AllowCredentials: true
+        AllowOrigin: "'*'"
+        AllowCredentials: "'*'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
         Authorizers:
@@ -56,7 +56,28 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: accounts/
-      Handler: app.handler
+      Handler: app.accounts_handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - DynamoDBCrudPolicy:
+            TableName: 'cb-mock-account'
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /accounts
+            Method: get
+            RestApiId: !Ref TradeTrackerApi
+            Auth:
+              Authorizer: CognitoAuthorizer
+              AddDefaultAuthorizerToCorsPreflight: false
+
+  TransactionsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: accounts/
+      Handler: app.transactions_handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
@@ -68,7 +89,7 @@ Resources:
         TradeGraph:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /accounts
+            Path: /transactions/{account-id}
             Method: get
             RestApiId: !Ref TradeTrackerApi
             Auth:
