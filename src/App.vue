@@ -30,6 +30,9 @@
           </b-collapse>
         </b-navbar>
       </div>
+      <amplify-authenticator username-alias="email"></amplify-authenticator>
+
+
     </div>
 
     <div class="container mt-4">
@@ -63,7 +66,6 @@
       </div>
     </div>
 
-    <amplify-authenticator username-alias="email"></amplify-authenticator>
   </div>
 </template>
 
@@ -141,13 +143,16 @@ export default {
         }
       }
 
+      let url_extension = 'account-graph/'
+
       if(this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getTransactions(); // get transactions for the trade graph table
+        url_extension = 'trade-graph/'
       } else {
         this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
       }
 
-      axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/trade-graph/' + this.activeAccount.account_id, requestData)
+      axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, requestData)
           .then(response => {
                 const figure = JSON.parse(response.data.message);
 

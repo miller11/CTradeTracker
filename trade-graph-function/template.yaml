@@ -23,6 +23,7 @@ Resources:
         AllowCredentials: "'*'"
       Auth:
         DefaultAuthorizer: CognitoAuthorizer
+        AddDefaultAuthorizerToCorsPreflight: false
         Authorizers:
           CognitoAuthorizer:
             UserPoolArn: 'arn:aws:cognito-idp:us-east-1:130240313905:userpool/us-east-1_l0UlD7ehn'
@@ -32,8 +33,8 @@ Resources:
   TradeGraphFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: trade_graph/
-      Handler: app.handler
+      CodeUri: graphing/
+      Handler: tradeGraph.handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
@@ -51,6 +52,25 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
               AddDefaultAuthorizerToCorsPreflight: false
+
+  GainLossFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: graphing/
+      Handler: gainLoss.handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - AmazonTimestreamReadOnlyAccess
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /account-graph/{account-id}
+            Method: get
+            RestApiId: !Ref TradeTrackerApi
+            Auth:
+              Authorizer: CognitoAuthorizer
 
   AccountsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -71,7 +91,7 @@ Resources:
             RestApiId: !Ref TradeTrackerApi
             Auth:
               Authorizer: CognitoAuthorizer
-              AddDefaultAuthorizerToCorsPreflight: false
+
 
   TransactionsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -94,7 +114,7 @@ Resources:
             RestApiId: !Ref TradeTrackerApi
             Auth:
               Authorizer: CognitoAuthorizer
-              AddDefaultAuthorizerToCorsPreflight: false
+
 
 #  DynamoReadWritePolicy:
 #    Type: "AWS::IAM::ManagedPolicy"

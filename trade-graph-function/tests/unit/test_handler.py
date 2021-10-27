@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from trade_graph import app
+from graphing import tradeGraph
 
 
 @pytest.fixture()
