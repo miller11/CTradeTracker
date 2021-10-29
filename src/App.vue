@@ -52,7 +52,7 @@
             <div v-if="dataLoading" class="row">
               <b-spinner variant="success" label="Loading"></b-spinner>
             </div>
-            <div id="graph"></div>
+            <div v-if="!dataLoading" id="graph"></div>
           </div>
         </div>
 
@@ -119,7 +119,7 @@ export default {
         }
 
         // load accounts and set default
-        axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/accounts', requestData)
+        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', requestData)
             .then(response => {
                   self.accounts = response.data.data
 
@@ -152,7 +152,7 @@ export default {
         this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
       }
 
-      axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, requestData)
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, requestData)
           .then(response => {
                 const figure = JSON.parse(response.data.message);
 
@@ -169,7 +169,7 @@ export default {
         }
       }
 
-      axios.get('https://2q0agbdysd.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, requestData)
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, requestData)
           .then(response => {
                 this.transactions =  response.data.data;
               }

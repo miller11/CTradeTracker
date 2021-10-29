@@ -1,7 +1,9 @@
 import json
-from TimeseriesUtil import TimeseriesUtil
 import plotly.graph_objs as go
 import pandas as pd
+
+from TimeseriesUtil import TimeseriesUtil
+from CommonsUtil import *
 
 
 QUERY_STRING = """  SELECT time, measure_value::double as {}
@@ -28,21 +30,28 @@ def get_df():
 
 def handler(event, context):
     print(json.dumps(event))  # Log the event
-    print(event['requestContext']['accountId'])  # Log the account id
 
-    # todo throw 403 if no user account
+    # Check to make sure account-id is passed
+    try:
+        account_identifier = event['pathParameters']['account-id']  # Get account id from from query string
+    except AttributeError:
+        account_identifier = None
 
-    if event['pathParameters']['account-id'] is None:
+    if account_identifier is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
+        return CommonsUtil.NO_ACCOUNT_RESPONSE
 
-        return {
-            "statusCode": 404,
-            "body": json.dumps({
-                "message": "No account_id query string param was passed"
-            }),
-        }
+    # Make sure user_id is passed and is authorized for the account
+    try:
+        user_id = event['requestContext']['authorizer']['claims']['cognito:username']
+    except AttributeError:
+        user_id = None
 
-    account_identifier = event['pathParameters']['account-id']  # Get account id from from query string
+    # Check authorized
+    if user_id is None or not CommonsUtil.is_authorized_account(user_id, account_identifier):
+        print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
+        return CommonsUtil.UNAUTHORIZED_RESPONSE
+
 
     df = get_df()
     fig = go.Figure()  # declare figure
@@ -55,15 +64,7 @@ def handler(event, context):
 
     return {
         "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Headers": "Content-Type,X-Amz-Date,X-Amz-Security-Token,Authorization,X-Api-Key,"
-                                            "X-Requested-With,Accept,Access-Control-Allow-Methods,"
-                                            "Access-Control-Allow-Origin,Access-Control-Allow-Headers",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
-            "X-Requested-With": "*",
-            "Access-Control-Allow-Credentials": True  # Required for cookies, authorization headers with HTTPS
-        },
+        "headers": CommonsUtil.HEADERS,
         "body": json.dumps({
             "message": fig.to_json()
         }),

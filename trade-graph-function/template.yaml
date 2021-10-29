@@ -9,6 +9,10 @@ Description: >
 Globals:
   Function:
     Timeout: 30
+    Layers:
+      - {Ref: LibLayer}
+      - {Ref: UtilLayer }
+
 
 
 Resources:
@@ -30,11 +34,36 @@ Resources:
             Identity:
               Header: Authorization
 
+  ######################################################################################################################
+  # Simple layer with custom code
+  ######################################################################################################################
+  UtilLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: util_layer
+      CompatibleRuntimes:
+        - python3.7
+    Metadata:
+      BuildMethod: python3.7
+
+  ######################################################################################################################
+  # Layer with build capabilities, automatically execute pip install -r requirements.txt -t installing libraries
+  ######################################################################################################################
+  LibLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: lib_layer
+      CompatibleRuntimes:
+        - python3.7
+    Metadata:
+      BuildMethod: python3.7 # this is where magic happen, sam build command will read requirements.txt file and download libraries
+
+
   TradeGraphFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: graphing/
-      Handler: tradeGraph.handler
+      CodeUri: function_code/trade_graph/
+      Handler: tradeGraphFunction.handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
@@ -42,13 +71,15 @@ Resources:
             TableName: 'cb-mock-account'
         - DynamoDBCrudPolicy:
             TableName: 'cb-bot-transaction'
+        - DynamoDBCrudPolicy:
+            TableName: 'cb_user_accounts'
       Events:
         TradeGraph:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /trade-graph/{account-id}
             Method: get
-            RestApiId: !Ref TradeTrackerApi
+            RestApiId: {Ref: TradeTrackerApi}
             Auth:
               Authorizer: CognitoAuthorizer
               AddDefaultAuthorizerToCorsPreflight: false
@@ -56,27 +87,29 @@ Resources:
   GainLossFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: graphing/
-      Handler: gainLoss.handler
+      CodeUri: function_code/gain_loss/
+      Handler: gainLossFunction.handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
         - AmazonTimestreamReadOnlyAccess
+        - DynamoDBCrudPolicy:
+            TableName: 'cb_user_accounts'
       Events:
         TradeGraph:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /account-graph/{account-id}
             Method: get
-            RestApiId: !Ref TradeTrackerApi
+            RestApiId: {Ref: TradeTrackerApi }
             Auth:
               Authorizer: CognitoAuthorizer
 
   AccountsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: accounts/
-      Handler: app.accounts_handler
+      CodeUri: function_code/accounts/
+      Handler: accountsFunction.handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
@@ -88,7 +121,7 @@ Resources:
           Properties:
             Path: /accounts
             Method: get
-            RestApiId: !Ref TradeTrackerApi
+            RestApiId: {Ref: TradeTrackerApi }
             Auth:
               Authorizer: CognitoAuthorizer
 
@@ -96,8 +129,8 @@ Resources:
   TransactionsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: accounts/
-      Handler: app.transactions_handler
+      CodeUri: function_code/transactions
+      Handler: transactionFunction.handler
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
@@ -105,36 +138,18 @@ Resources:
             TableName: 'cb-mock-account'
         - DynamoDBCrudPolicy:
             TableName: 'cb-bot-transaction'
+        - DynamoDBCrudPolicy:
+            TableName: 'cb_user_accounts'
       Events:
         TradeGraph:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /transactions/{account-id}
             Method: get
-            RestApiId: !Ref TradeTrackerApi
+            RestApiId: {Ref: TradeTrackerApi }
             Auth:
               Authorizer: CognitoAuthorizer
 
-
-#  DynamoReadWritePolicy:
-#    Type: "AWS::IAM::ManagedPolicy"
-#    Properties:
-#      PolicyDocument:
-#        Version: "2012-10-17"
-#        Statement:
-#          - Action:
-#              - "dynamodb:BatchGetItem"
-#              - "dynamodb:GetItem"
-#              - "dynamodb:Query"
-#              - "dynamodb:Scan"
-#              - "dynamodb:BatchWriteItem"
-#              - "dynamodb:PutItem"
-#              - "dynamodb:UpdateItem"
-#            Effect: "Allow"
-#            Resource:
-#              - "arn:aws:dynamodb:us-east-1:130240313905:table/cb-mock-account"
-#              - "arn:aws:dynamodb:us-east-1:130240313905:table/cb-bot-transaction"
-#      Description: "An IAM policy that grants permissions to read/write on Dynamo"
 
 #Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

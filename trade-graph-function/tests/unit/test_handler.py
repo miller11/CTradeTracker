@@ -2,8 +2,6 @@ import json
 
 import pytest
 
-from graphing import tradeGraph
-
 
 @pytest.fixture()
 def apigw_event():
