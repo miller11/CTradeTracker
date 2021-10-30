@@ -54,21 +54,21 @@
             <div v-if="dataLoading" class="row">
               <b-spinner variant="success" label="Loading"></b-spinner>
             </div>
-            <div v-show="!dataLoading" id="graph"></div>
+            <div id="graph"></div>
           </div>
         </div>
 
         <div class="row" v-if="transactions !== undefined">
           <div class="col-12">
             <h3>Transactions</h3>
-            <b-table striped hover :items="transactions" :fields="transactions_fields"></b-table>
+            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc="true"></b-table>
           </div>
         </div>
 
         <div class="row" v-if="botDecisions !== undefined">
           <div class="col-12">
             <h3>Bot Decisions</h3>
-            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields"></b-table>
+            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp" sort-desc="true"></b-table>
           </div>
         </div>
 
