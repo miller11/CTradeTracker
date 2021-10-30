@@ -40,10 +40,12 @@
       <div v-if="activeAccount !== undefined">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }" @click="activeNavTab = NavTab.TRADE_GRAPH">Trade(s)</a>
+            <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }"
+               @click="activeNavTab = NavTab.TRADE_GRAPH">Trade(s)</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }" @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
+            <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"
+               @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
           </li>
         </ul>
 
@@ -52,7 +54,7 @@
             <div v-if="dataLoading" class="row">
               <b-spinner variant="success" label="Loading"></b-spinner>
             </div>
-            <div v-if="!dataLoading" id="graph"></div>
+            <div v-show="!dataLoading" id="graph"></div>
           </div>
         </div>
 
@@ -60,6 +62,13 @@
           <div class="col-12">
             <h3>Transactions</h3>
             <b-table striped hover :items="transactions" :fields="transactions_fields"></b-table>
+          </div>
+        </div>
+
+        <div class="row" v-if="botDecisions !== undefined">
+          <div class="col-12">
+            <h3>Bot Decisions</h3>
+            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields"></b-table>
           </div>
         </div>
 
@@ -85,6 +94,7 @@ const NavTab = {
 }
 
 const transactions_fields = ['date', 'operation', 'amount', 'currency_value']
+const bot_decision_fields = ['timestamp', 'decision', 'reason']
 
 export default {
   name: 'AuthStateApp',
@@ -101,29 +111,25 @@ export default {
       accounts: undefined,
       activeAccount: undefined,
       transactions: undefined,
+      botDecisions: undefined,
       dataLoading: false,
       activeNavTab: NavTab.TRADE_GRAPH,
       NavTab,
-      transactions_fields
+      transactions_fields,
+      bot_decision_fields
     }
   },
   methods: {
     manageAccounts() {
       if (this.accounts === undefined && this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
         let self = this;
-        const token = this.currentUser.signInUserSession.idToken.jwtToken
-        const requestData = {
-          headers: {
-            Authorization: token
-          }
-        }
 
         // load accounts and set default
-        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', requestData)
+        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', this.getRequestData())
             .then(response => {
                   self.accounts = response.data.data
 
-                  if(self.accounts !== undefined && self.accounts.length > 0) {
+                  if (self.accounts !== undefined && self.accounts.length > 0) {
                     self.activeAccount = self.accounts[0];
                   }
                 }
@@ -136,44 +142,46 @@ export default {
     },
     getGraph() {
       this.dataLoading = true
-      const token = this.currentUser.signInUserSession.idToken.jwtToken
-      const requestData = {
-        headers: {
-          Authorization: token
-        }
-      }
-
       let url_extension = 'account-graph/'
 
-      if(this.activeNavTab === NavTab.TRADE_GRAPH) {
+      if (this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getTransactions(); // get transactions for the trade graph table
         url_extension = 'trade-graph/'
+        this.botDecisions = undefined;
       } else {
         this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
+        this.getBotDecisions();
       }
 
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, requestData)
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, this.getRequestData())
           .then(response => {
-                const figure = JSON.parse(response.data.message);
-
                 this.dataLoading = false
+                const figure = JSON.parse(response.data.message);
                 Plotly.newPlot('graph', figure.data, figure.layout);
               }
           )
     },
     getTransactions() {
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, this.getRequestData())
+          .then(response => {
+                this.transactions = response.data.data;
+              }
+          )
+    },
+    getBotDecisions() {
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/bot-decisions/' + this.activeAccount.account_id, this.getRequestData())
+          .then(response => {
+                this.botDecisions = response.data.data;
+              }
+          )
+    },
+    getRequestData() {
       const token = this.currentUser.signInUserSession.idToken.jwtToken
-      const requestData = {
+      return {
         headers: {
           Authorization: token
         }
       }
-
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, requestData)
-          .then(response => {
-                this.transactions =  response.data.data;
-              }
-          )
     },
     appSignOut: async function () {
       try {

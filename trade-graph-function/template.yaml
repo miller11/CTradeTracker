@@ -150,6 +150,29 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
+  BotDecisionsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: function_code/bot_decisions
+      Handler: bot_decision_function.handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - DynamoDBCrudPolicy:
+            TableName: 'cb-mock-account'
+        - DynamoDBCrudPolicy:
+            TableName: 'cb-bot-decision'
+        - DynamoDBCrudPolicy:
+            TableName: 'cb_user_accounts'
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /bot-decisions/{account-id}
+            Method: get
+            RestApiId: {Ref: TradeTrackerApi }
+            Auth:
+              Authorizer: CognitoAuthorizer
 
 #Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
