@@ -6,7 +6,8 @@ from boto3.dynamodb.conditions import Key
 from GraphUtil import GraphUtil
 from CommonsUtil import CommonsUtil
 
-TIME_PERIOD = '14d'
+GRAPH_DAYS = 14
+TIME_PERIOD = str(GRAPH_DAYS) + 'd'  # This will turn out as 14d
 TIME_INTERVAL = '30m'
 
 

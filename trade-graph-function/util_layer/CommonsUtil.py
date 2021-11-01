@@ -1,5 +1,5 @@
 from boto3.dynamodb.conditions import Key
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from coinbase.wallet.client import Client
 import boto3
@@ -57,11 +57,13 @@ class CommonsUtil:
         return LONDON_TMZ.localize(datetime.fromtimestamp(epoch_time)).strftime('%Y-%m-%d %H:%M:%S')
 
     @staticmethod
-    def get_transactions(account_id):
+    def get_transactions(account_id, days_back=14):
         table = CommonsUtil.get_dynamo_table('cb-bot-transaction')
+        query_time = datetime.today() - timedelta(days=days_back)
 
         response = table.query(
-            KeyConditionExpression=Key('account_id').eq(account_id)
+            KeyConditionExpression=Key('account_id').eq(account_id) & Key('timestamp').gt(
+                int(query_time.timestamp()))
         )
 
         transaction_list = response['Items']
