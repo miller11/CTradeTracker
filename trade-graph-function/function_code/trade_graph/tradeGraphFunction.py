@@ -12,7 +12,7 @@ TIME_INTERVAL = '30m'
 
 
 def get_account(account_id):
-    table = CommonsUtil.get_dynamo_table('cb-mock-account')
+    table = CommonsUtil.get_dynamo_table(CommonsUtil.ACCOUNT_TABLE)
 
     response = table.query(
         KeyConditionExpression=Key('account_id').eq(account_id),

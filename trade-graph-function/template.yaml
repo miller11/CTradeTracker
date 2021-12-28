@@ -104,6 +104,25 @@ Resources:
             RestApiId: {Ref: TradeTrackerApi }
             Auth:
               Authorizer: CognitoAuthorizer
+  CBAccountsFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: function_code/cbp_accounts/
+      Handler: cbpAccountsFunction.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - SSMParameterReadPolicy
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /cbp-accounts
+            Method: get
+            RestApiId: {Ref: TradeTrackerApi }
+            Auth:
+              Authorizer: CognitoAuthorizer
+
 
   AccountsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -134,12 +153,6 @@ Resources:
       Runtime: python3.7
       Policies:
         - AWSLambdaExecute
-        - DynamoDBCrudPolicy:
-            TableName: 'cb-mock-account'
-        - DynamoDBCrudPolicy:
-            TableName: 'cb-bot-transaction'
-        - DynamoDBCrudPolicy:
-            TableName: 'cb_user_accounts'
       Events:
         TradeGraph:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -161,7 +174,7 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: 'cb-mock-account'
         - DynamoDBCrudPolicy:
-            TableName: 'cb-bot-decision'
+            TableName: 'cbp-bot-decision'
         - DynamoDBCrudPolicy:
             TableName: 'cb_user_accounts'
       Events:

@@ -6,7 +6,7 @@ import time
 
 
 def get_bot_decisions(account_identifier):
-    table = CommonsUtil.get_dynamo_table('cb-bot-decision')
+    table = CommonsUtil.get_dynamo_table(CommonsUtil.DECISIONS_TABLE)
 
     query_time = datetime.today() - timedelta(days=14)
 

@@ -1,7 +1,6 @@
 from boto3.dynamodb.conditions import Key
 from datetime import datetime, timedelta
 import os
-from coinbase.wallet.client import Client
 import boto3
 import pytz
 import json
@@ -12,6 +11,10 @@ LONDON_TMZ = pytz.timezone('Europe/London')
 
 
 class CommonsUtil:
+    ACCOUNT_TABLE = 'cb-mock-account'
+    DECISIONS_TABLE = 'cbp-bot-decision'
+    TRANSACTION_TABLE = 'cbp-bot-transaction'
+
     HEADERS = {
         "Access-Control-Allow-Origin": "*",  # Required for CORS support to work
         "Access-Control-Allow-Headers": "Content-Type, Authorization, Origin, X-Auth-Token",
@@ -36,8 +39,14 @@ class CommonsUtil:
     }
 
     @staticmethod
+    def get_ssm_param(param_path):
+        ssm = boto3.client('ssm', region_name='us-east-1')
+        return ssm.get_parameter(Name=param_path, WithDecryption=True)['Parameter']['Value']
+
+    @staticmethod
     def get_cb_client():
-        return Client(os.getenv('API_KEY'), os.getenv('API_SECRET'))
+        # todo this won't work in AWS
+        return None
 
     @staticmethod
     def get_dynamo_table(table_name):
@@ -111,13 +120,19 @@ class CommonsUtil:
 class AccountUtil:
     @staticmethod
     def get_accounts():
-        return CommonsUtil.get_cb_client().get_accounts(limit=50).data
+        return None
 
 
 class MockAccountUtil:
     @staticmethod
-    def get_accounts():
-        table = CommonsUtil.get_dynamo_table('cb-mock-account')
-        response = table.scan()
+    def get_accounts(user_id):
+        table = CommonsUtil.get_dynamo_table(CommonsUtil.ACCOUNT_TABLE)
+
+        if user_id is None:
+            response = table.scan()
+        else:
+            response = table.query(
+                KeyConditionExpression=Key('user_id').eq(user_id)
+            )
 
         return response['Items']

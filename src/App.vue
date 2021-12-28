@@ -41,7 +41,7 @@
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }"
-               @click="activeNavTab = NavTab.TRADE_GRAPH">Trade(s)</a>
+               @click="activeNavTab = NavTab.TRADE_GRAPH">Trades</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"

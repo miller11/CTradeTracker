@@ -7,7 +7,7 @@ from CommonsUtil import *
 
 
 QUERY_STRING = """  SELECT time, measure_value::double as {}
-                        FROM "realized-gains"."ross-gains" 
+                        FROM "account-tracker"."account" 
                         WHERE time between ago(14d) and now() 
                         AND type = 'account'
                         and measure_name = '{}'
