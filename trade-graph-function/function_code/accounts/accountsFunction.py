@@ -1,6 +1,5 @@
-import json
-
-from CommonsUtil import CommonsUtil, MockAccountUtil
+import simplejson as json
+from CommonsUtil import CommonsUtil, AccountUtil
 
 
 def handler(event, context):
@@ -16,6 +15,6 @@ def handler(event, context):
         "statusCode": 200,
         "headers": CommonsUtil.HEADERS,
         "body": json.dumps({
-            "data": MockAccountUtil.get_accounts(user_id)
+            "data": AccountUtil.get_accounts(user_id)
         }),
     }

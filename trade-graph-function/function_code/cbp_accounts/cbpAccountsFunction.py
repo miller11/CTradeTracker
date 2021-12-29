@@ -1,5 +1,5 @@
 import cbpro
-import json
+import simplejson as json
 from CommonsUtil import CommonsUtil
 
 
@@ -13,4 +13,10 @@ def lambda_handler(event, context):
 
     auth_client = cbpro.AuthenticatedClient(access_key, b64secret, passphrase)
 
-    return auth_client.get_accounts()
+    return {
+        "statusCode": 200,
+        "headers": CommonsUtil.HEADERS,
+        "body": json.dumps({
+            "data": auth_client.get_accounts()
+        }),
+    }

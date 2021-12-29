@@ -4,14 +4,13 @@ import os
 import boto3
 import pytz
 import json
-import time
 
 
 LONDON_TMZ = pytz.timezone('Europe/London')
 
 
 class CommonsUtil:
-    ACCOUNT_TABLE = 'cb-mock-account'
+    ACCOUNT_TABLE = 'trader-account'
     DECISIONS_TABLE = 'cbp-bot-decision'
     TRANSACTION_TABLE = 'cbp-bot-transaction'
 
@@ -63,11 +62,11 @@ class CommonsUtil:
 
     @staticmethod
     def _normalize_timestamp(epoch_time):
-        return LONDON_TMZ.localize(datetime.fromtimestamp(epoch_time)).strftime('%Y-%m-%d %H:%M:%S')
+        return LONDON_TMZ.localize(datetime.fromtimestamp(epoch_time / 1000)).strftime('%Y-%m-%d %H:%M:%S')
 
     @staticmethod
     def get_transactions(account_id, days_back=14):
-        table = CommonsUtil.get_dynamo_table('cb-bot-transaction')
+        table = CommonsUtil.get_dynamo_table(CommonsUtil.TRANSACTION_TABLE)
         query_time = datetime.today() - timedelta(days=days_back)
 
         response = table.query(
@@ -84,55 +83,23 @@ class CommonsUtil:
 
     @staticmethod
     def is_authorized_account(user_id, account_id):
-        table = CommonsUtil.get_dynamo_table('cb_user_accounts')
-
-        response = table.query(
-            KeyConditionExpression=Key('user_id').eq(user_id)
-        )
-
-        cached_accounts = response['Items']
-
-        if any(cached_account['account_id'] == account_id for cached_account in cached_accounts):
-            return True
-
-        accounts = MockAccountUtil.get_accounts()
-
-        has_match = False
+        accounts = AccountUtil.get_accounts(user_id)
 
         for account in accounts:
             if account['account_id'] == account_id:
-                has_match = True
+                return True
 
-            if not any(cached_account['account_id'] == account_id for cached_account in cached_accounts):
-                cached_account = {
-                    'user_id': user_id,
-                    'account_id': account['account_id'],
-                    'timestamp': int(time.time()),
-                }
-
-                table.put_item(
-                    Item=cached_account
-                )
-
-        return has_match
+        return False
 
 
 class AccountUtil:
     @staticmethod
-    def get_accounts():
-        return None
-
-
-class MockAccountUtil:
-    @staticmethod
     def get_accounts(user_id):
         table = CommonsUtil.get_dynamo_table(CommonsUtil.ACCOUNT_TABLE)
 
-        if user_id is None:
-            response = table.scan()
-        else:
-            response = table.query(
-                KeyConditionExpression=Key('user_id').eq(user_id)
-            )
+        response = table.query(
+            IndexName='user_id-index',
+            KeyConditionExpression=Key('user_id').eq(user_id)
+        )
 
         return response['Items']

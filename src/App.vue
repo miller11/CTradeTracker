@@ -12,11 +12,11 @@
             <b-navbar-nav class="ml-auto">
               <b-nav-item-dropdown text="Select Account" right>
                 <b-dropdown-item v-for="(account) in accounts" :key="account.account_id"
-                                 @click="activeAccount = account;">{{ account.name }}
+                                 @click="activeAccount = account;">{{ account.currency }}
                 </b-dropdown-item>
               </b-nav-item-dropdown>
 
-              <b-nav-item href="#" v-if="activeAccount !== undefined" disabled>{{ activeAccount.name }}</b-nav-item>
+              <b-nav-item href="#" v-if="activeAccount !== undefined" disabled>{{ activeAccount.currency }}</b-nav-item>
 
 
               <b-nav-item-dropdown right>
@@ -47,6 +47,10 @@
             <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"
                @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" :class="{ active: activeNavTab === NavTab.ACCOUNTS }"
+               @click="activeNavTab = NavTab.ACCOUNTS">Accounts</a>
+          </li>
         </ul>
 
         <div class="row">
@@ -61,17 +65,25 @@
         <div class="row" v-if="transactions !== undefined">
           <div class="col-12">
             <h3>Transactions</h3>
-            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc="true"></b-table>
+            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc></b-table>
           </div>
         </div>
 
         <div class="row" v-if="botDecisions !== undefined">
           <div class="col-12">
             <h3>Bot Decisions</h3>
-            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp" sort-desc="true"></b-table>
+            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp" sort-desc></b-table>
           </div>
         </div>
 
+        <div class="row" v-if="cbpAccounts !== undefined">
+          <div class="col-12">
+            <h3>Managed Accounts</h3>
+            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp" sort-desc></b-table>
+            <hr/>
+
+          </div>
+        </div>
       </div>
     </div>
 
@@ -90,10 +102,11 @@ import Plotly from 'plotly.js-dist'
 
 const NavTab = {
   TRADE_GRAPH: 0,
-  GAIN_LOSS: 1
+  GAIN_LOSS: 1,
+  ACCOUNTS: 2
 }
 
-const transactions_fields = ['date', 'operation', 'amount', 'currency_value']
+const transactions_fields = ['date', 'operation', 'amount', 'price']
 const bot_decision_fields = ['timestamp', 'decision', 'reason']
 
 export default {
@@ -109,6 +122,7 @@ export default {
     return {
       unsubscribeAuth: undefined,
       accounts: undefined,
+      cbpAccounts: undefined,
       activeAccount: undefined,
       transactions: undefined,
       botDecisions: undefined,
@@ -161,6 +175,16 @@ export default {
               }
           )
     },
+    getCBPAccounts() {
+      this.botDecisions = undefined;
+      this.transactions = undefined;
+
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts' , this.getRequestData())
+          .then(response => {
+                this.cbpAccounts = response.data.data;
+              }
+          )
+    },
     getTransactions() {
       axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, this.getRequestData())
           .then(response => {
@@ -204,7 +228,11 @@ export default {
   },
   watch: {
     activeNavTab: function () {
-      this.getGraph();
+      if(this.activeNavTab === NavTab.GAIN_LOSS || this.activeNavTab === NavTab.TRADE_GRAPH) {
+        this.getGraph();
+      } else {
+        this.getCBPAccounts();
+      }
     },
     activeAccount: function () {
       this.getGraph();
