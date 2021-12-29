@@ -1,0 +1,92 @@
+<template>
+  <div class="AppFrame">
+    <div>
+      <div>
+        <b-navbar toggleable="sm" type="dark" variant="dark">
+          <b-navbar-brand href="#">TradeTracker</b-navbar-brand>
+
+          <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+          <b-collapse id="nav-collapse" v-if="isSignedIn" is-nav>
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+<!--              <b-nav-item-dropdown text="Select Account" right>-->
+<!--                <b-dropdown-item v-for="(account) in accounts" :key="account.account_id"-->
+<!--                                 @click="activeAccount = account;">{{ account.currency }}-->
+<!--                </b-dropdown-item>-->
+<!--              </b-nav-item-dropdown>-->
+
+<!--              <b-nav-item href="#" v-if="activeAccount !== undefined" disabled>{{ activeAccount.currency }}</b-nav-item>-->
+
+
+              <b-nav-item-dropdown right>
+                <!-- Using 'button-content' slot -->
+                <template #button-content>
+                  <em>{{ currentUser.attributes.email }}</em>
+                </template>
+                <b-dropdown-item @click="appSignOut()">Sign Out</b-dropdown-item>
+              </b-nav-item-dropdown>
+            </b-navbar-nav>
+          </b-collapse>
+        </b-navbar>
+      </div>
+    </div>
+
+
+    <div class="container mt-4">
+      <amplify-authenticator username-alias="email"></amplify-authenticator>
+      <!-- Content here -->
+      <slot></slot>
+    </div>
+
+  </div>
+
+</template>
+
+<script>
+import {onAuthUIStateChange} from '@aws-amplify/ui-components'
+import {Auth} from 'aws-amplify';
+import {store} from '@/store/store';
+
+export default {
+  name: "AppFrame",
+  data() {
+    return {
+      unsubscribeAuth: undefined
+    }
+  },
+  created() {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
+      store.dispatch('setAuthState', authState);
+      store.dispatch('setUser', authData);
+    })
+  },
+  methods: {
+    appSignOut: async function () {
+      try {
+        await Auth.signOut();
+      } catch (error) {
+        console.log('error signing out: ', error);
+      }
+    }
+  },
+  computed: {
+    isSignedIn: function () {
+      return !!(this.authState !== undefined && this.authState === 'signedin' && this.currentUser);
+    },
+    currentUser() {
+      return this.$store.getters.currentUser
+    },
+    authState() {
+      return this.$store.getters.authState
+    }
+  },
+  beforeDestroy() {
+    this.unsubscribeAuth();
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
