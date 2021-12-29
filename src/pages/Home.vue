@@ -1,9 +1,12 @@
 <template>
-  <div class="Home">
+  <div class="Home mb-5">
+    <div class="row offset-sm-10 col-sm-2">
+      <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id" text-field="currency"></b-form-select>
+    </div>
 
 
-      <div v-if="activeAccount !== undefined">
-        <ul class="nav nav-tabs">
+      <div v-if="activeAccountId !== undefined">
+        <ul class="nav nav-tabs mt-3">
           <li class="nav-item">
             <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }"
                @click="activeNavTab = NavTab.TRADE_GRAPH">Trades</a>
@@ -11,10 +14,6 @@
           <li class="nav-item">
             <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"
                @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeNavTab === NavTab.ACCOUNTS }"
-               @click="activeNavTab = NavTab.ACCOUNTS">Accounts</a>
           </li>
         </ul>
 
@@ -65,7 +64,7 @@ export default {
       unsubscribeAuth: undefined,
       accounts: undefined,
       cbpAccounts: undefined,
-      activeAccount: undefined,
+      activeAccountId: undefined,
       transactions: undefined,
       botDecisions: undefined,
       dataLoading: false,
@@ -76,9 +75,7 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick(function () {
-      this.manageAccounts();
-    })
+    this.manageAccounts();
   },
   methods: {
     manageAccounts() {
@@ -91,7 +88,7 @@ export default {
                   self.accounts = response.data.data
 
                   if (self.accounts !== undefined && self.accounts.length > 0) {
-                    self.activeAccount = self.accounts[0];
+                    self.activeAccountId = self.accounts[0].account_id;
                   }
                 }
             )
@@ -114,7 +111,7 @@ export default {
         this.getBotDecisions();
       }
 
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccount.account_id, this.getRequestData())
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccountId, this.getRequestData())
           .then(response => {
                 this.dataLoading = false
                 const figure = JSON.parse(response.data.message);
@@ -133,14 +130,14 @@ export default {
           )
     },
     getTransactions() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccount.account_id, this.getRequestData())
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccountId, this.getRequestData())
           .then(response => {
                 this.transactions = response.data.data;
               }
           )
     },
     getBotDecisions() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/bot-decisions/' + this.activeAccount.account_id, this.getRequestData())
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/bot-decisions/' + this.activeAccountId, this.getRequestData())
           .then(response => {
                 this.botDecisions = response.data.data;
               }
@@ -171,7 +168,7 @@ export default {
         this.getCBPAccounts();
       }
     },
-    activeAccount: function () {
+    activeAccountId: function () {
       this.getGraph();
     }
   },

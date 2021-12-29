@@ -10,14 +10,6 @@
           <b-collapse id="nav-collapse" v-if="isSignedIn" is-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-<!--              <b-nav-item-dropdown text="Select Account" right>-->
-<!--                <b-dropdown-item v-for="(account) in accounts" :key="account.account_id"-->
-<!--                                 @click="activeAccount = account;">{{ account.currency }}-->
-<!--                </b-dropdown-item>-->
-<!--              </b-nav-item-dropdown>-->
-
-<!--              <b-nav-item href="#" v-if="activeAccount !== undefined" disabled>{{ activeAccount.currency }}</b-nav-item>-->
-
 
               <b-nav-item-dropdown right>
                 <!-- Using 'button-content' slot -->
