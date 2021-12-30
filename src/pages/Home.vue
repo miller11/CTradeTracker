@@ -119,16 +119,6 @@ export default {
               }
           )
     },
-    getCBPAccounts() {
-      this.botDecisions = undefined;
-      this.transactions = undefined;
-
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts' , this.getRequestData())
-          .then(response => {
-                this.cbpAccounts = response.data.data;
-              }
-          )
-    },
     getTransactions() {
       axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccountId, this.getRequestData())
           .then(response => {
@@ -162,11 +152,7 @@ export default {
   },
   watch: {
     activeNavTab: function () {
-      if(this.activeNavTab === NavTab.GAIN_LOSS || this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getGraph();
-      } else {
-        this.getCBPAccounts();
-      }
     },
     activeAccountId: function () {
       this.getGraph();

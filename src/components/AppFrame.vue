@@ -3,7 +3,7 @@
     <div>
       <div>
         <b-navbar toggleable="sm" type="dark" variant="dark">
-          <b-navbar-brand href="#">TradeTracker</b-navbar-brand>
+          <router-link :to="{name: 'home'}"><b-navbar-brand>TradeTracker</b-navbar-brand></router-link>
 
           <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -16,6 +16,7 @@
                 <template #button-content>
                   <em>{{ currentUser.attributes.email }}</em>
                 </template>
+                <b-dropdown-item><router-link :to="{name: 'accounts'}">Manage Accounts</router-link></b-dropdown-item>
                 <b-dropdown-item @click="appSignOut()">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
@@ -39,6 +40,7 @@
 import {onAuthUIStateChange} from '@aws-amplify/ui-components'
 import {Auth} from 'aws-amplify';
 import {store} from '@/store/store';
+
 
 export default {
   name: "AppFrame",
