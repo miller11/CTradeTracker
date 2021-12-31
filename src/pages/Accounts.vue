@@ -103,8 +103,8 @@ export default {
       this.accountToAdd.currency = currency;
       this.accountToAdd.source_currency = 'USD';
       this.accountToAdd.default_buy = 0.000016;
-      this.accountToAdd.long_term_periods = 10;
-      this.accountToAdd.short_term_periods = 40;
+      this.accountToAdd.long_term_periods = 40;
+      this.accountToAdd.short_term_periods = 10;
 
       this.showForm = true
     },

@@ -1,0 +1,186 @@
+{
+  "resource": "/cbp-accounts/{account_id}",
+  "path": "/cbp-accounts/56ba5876-c2d2-4fb7-ace3-0261200ffcd6",
+  "httpMethod": "POST",
+  "headers": {
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Authorization": "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiIyMjg3ZGI1Ni02YTlmLTQ2NTAtYjEwMi01NDA5OTIxZmQ0ODYiLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiZjJhN2RiMGItNjhmNi00ZmI2LThjYTItOTYyMmFlZDNkMGFiIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2NDA4MjMwOTQsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTY0MDgyNjY5NCwiaWF0IjoxNjQwODIzMDk0LCJqdGkiOiJhZmI1YzJiZC1kNTIzLTQzZDgtYTViOC1hZTI3YWRjMmE4NWQiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.Ku60Mb40qAGOJpHXGGtKIfVgsL8jd6dVxMdwzqaUQ3ti9X9ProaqPRADvSq5zcva5A-OSw4AHo0elxRSjzhxuTkMz9UiS0CjX4oFI__mJj8UnheMKfFa3NATobA7AvwcRha9JArRoihhedCZOcyVk6Yn_fDtMvaqO1cfJFCB6e0cJImnonxDT0FUY-ZQ8a3El6OrbdaQKHT1q17bf3l4caFHuuvBB7T4zfTbVbwc2o8fT41OxI7Wj99spGVG70_9y1it5aUePEKskD8BWHVMCpuhDq6-euWosUhOCNz8n1Fw92hayRSbMVEfh4Za_krMCdikK0NoW-wKQ-F_iIKMqA",
+    "cache-control": "no-cache",
+    "CloudFront-Forwarded-Proto": "https",
+    "CloudFront-Is-Desktop-Viewer": "true",
+    "CloudFront-Is-Mobile-Viewer": "false",
+    "CloudFront-Is-SmartTV-Viewer": "false",
+    "CloudFront-Is-Tablet-Viewer": "false",
+    "CloudFront-Viewer-Country": "US",
+    "content-type": "application/json",
+    "dnt": "1",
+    "Host": "n77revptog.execute-api.us-east-1.amazonaws.com",
+    "origin": "http://localhost:8080",
+    "pragma": "no-cache",
+    "Referer": "http://localhost:8080/",
+    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": "\"macOS\"",
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "cross-site",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36",
+    "Via": "2.0 293997308bcac00bed6e80d21eeba7ff.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Id": "Aw7FnSdCVlz9iyanjwd_TO38S38Rrh3Yqzs70j6-fUPD6xtCNLiVbg==",
+    "X-Amzn-Trace-Id": "Root=1-61ccfb9b-7d0896e05871dfe91ded9a5e",
+    "X-Forwarded-For": "66.129.216.94, 130.176.50.91",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "multiValueHeaders": {
+    "Accept": [
+      "application/json, text/plain, */*"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate, br"
+    ],
+    "Accept-Language": [
+      "en-US,en;q=0.9"
+    ],
+    "Authorization": [
+      "eyJraWQiOiJ2Z0ZHWlwvaEFqMTY0ek96amlGSWVtVkRTK1wvVUFTaG9RclZ0S2FHd0E1ZEU9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiI3MGY3NzJkYS02NTU1LTQxYzktODE4Zi04ZDViN2IyMWI1ZWIiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfbDBVbEQ3ZWhuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjcwZjc3MmRhLTY1NTUtNDFjOS04MThmLThkNWI3YjIxYjVlYiIsIm9yaWdpbl9qdGkiOiIyMjg3ZGI1Ni02YTlmLTQ2NTAtYjEwMi01NDA5OTIxZmQ0ODYiLCJhdWQiOiI3N3YzOWJkNDIwYnZrNG1xM2JnZmdmdTZrcSIsImV2ZW50X2lkIjoiZjJhN2RiMGItNjhmNi00ZmI2LThjYTItOTYyMmFlZDNkMGFiIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE2NDA4MjMwOTQsInBob25lX251bWJlciI6IisxNTU1NTU1NTU1NSIsImV4cCI6MTY0MDgyNjY5NCwiaWF0IjoxNjQwODIzMDk0LCJqdGkiOiJhZmI1YzJiZC1kNTIzLTQzZDgtYTViOC1hZTI3YWRjMmE4NWQiLCJlbWFpbCI6ImxsYW1hc3RlcjExQGdtYWlsLmNvbSJ9.Ku60Mb40qAGOJpHXGGtKIfVgsL8jd6dVxMdwzqaUQ3ti9X9ProaqPRADvSq5zcva5A-OSw4AHo0elxRSjzhxuTkMz9UiS0CjX4oFI__mJj8UnheMKfFa3NATobA7AvwcRha9JArRoihhedCZOcyVk6Yn_fDtMvaqO1cfJFCB6e0cJImnonxDT0FUY-ZQ8a3El6OrbdaQKHT1q17bf3l4caFHuuvBB7T4zfTbVbwc2o8fT41OxI7Wj99spGVG70_9y1it5aUePEKskD8BWHVMCpuhDq6-euWosUhOCNz8n1Fw92hayRSbMVEfh4Za_krMCdikK0NoW-wKQ-F_iIKMqA"
+    ],
+    "cache-control": [
+      "no-cache"
+    ],
+    "CloudFront-Forwarded-Proto": [
+      "https"
+    ],
+    "CloudFront-Is-Desktop-Viewer": [
+      "true"
+    ],
+    "CloudFront-Is-Mobile-Viewer": [
+      "false"
+    ],
+    "CloudFront-Is-SmartTV-Viewer": [
+      "false"
+    ],
+    "CloudFront-Is-Tablet-Viewer": [
+      "false"
+    ],
+    "CloudFront-Viewer-Country": [
+      "US"
+    ],
+    "content-type": [
+      "application/json"
+    ],
+    "dnt": [
+      "1"
+    ],
+    "Host": [
+      "n77revptog.execute-api.us-east-1.amazonaws.com"
+    ],
+    "origin": [
+      "http://localhost:8080"
+    ],
+    "pragma": [
+      "no-cache"
+    ],
+    "Referer": [
+      "http://localhost:8080/"
+    ],
+    "sec-ch-ua": [
+      "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\""
+    ],
+    "sec-ch-ua-mobile": [
+      "?0"
+    ],
+    "sec-ch-ua-platform": [
+      "\"macOS\""
+    ],
+    "sec-fetch-dest": [
+      "empty"
+    ],
+    "sec-fetch-mode": [
+      "cors"
+    ],
+    "sec-fetch-site": [
+      "cross-site"
+    ],
+    "User-Agent": [
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36"
+    ],
+    "Via": [
+      "2.0 293997308bcac00bed6e80d21eeba7ff.cloudfront.net (CloudFront)"
+    ],
+    "X-Amz-Cf-Id": [
+      "Aw7FnSdCVlz9iyanjwd_TO38S38Rrh3Yqzs70j6-fUPD6xtCNLiVbg=="
+    ],
+    "X-Amzn-Trace-Id": [
+      "Root=1-61ccfb9b-7d0896e05871dfe91ded9a5e"
+    ],
+    "X-Forwarded-For": [
+      "66.129.216.94, 130.176.50.91"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": {
+    "account-id": "56ba5876-c2d2-4fb7-ace3-0261200ffcd6"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "87mlh2",
+    "authorizer": {
+      "claims": {
+        "sub": "70f772da-6555-41c9-818f-8d5b7b21b5eb",
+        "email_verified": "true",
+        "iss": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_l0UlD7ehn",
+        "phone_number_verified": "false",
+        "cognito:username": "70f772da-6555-41c9-818f-8d5b7b21b5eb",
+        "origin_jti": "2287db56-6a9f-4650-b102-5409921fd486",
+        "aud": "77v39bd420bvk4mq3bgfgfu6kq",
+        "event_id": "f2a7db0b-68f6-4fb6-8ca2-9622aed3d0ab",
+        "token_use": "id",
+        "auth_time": "1640823094",
+        "phone_number": "+15555555555",
+        "exp": "Thu Dec 30 01:11:34 UTC 2021",
+        "iat": "Thu Dec 30 00:11:34 UTC 2021",
+        "jti": "afb5c2bd-d523-43d8-a5b8-ae27adc2a85d",
+        "email": "llamaster11@gmail.com"
+      }
+    },
+    "resourcePath": "/cbp-accounts/{account_id}",
+    "httpMethod": "POST",
+    "extendedRequestId": "LIxATE2MoAMF5CQ=",
+    "requestTime": "30/Dec/2021:00:21:47 +0000",
+    "path": "/Test/cbp-accounts/56ba5876-c2d2-4fb7-ace3-0261200ffcd6",
+    "accountId": "130240313905",
+    "protocol": "HTTP/1.1",
+    "stage": "Test",
+    "domainPrefix": "n77revptog",
+    "requestTimeEpoch": 1640823707305,
+    "requestId": "d1777971-77f2-4719-99af-fbc0758df835",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "sourceIp": "66.129.216.94",
+      "principalOrgId": null,
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36",
+      "user": null
+    },
+    "domainName": "n77revptog.execute-api.us-east-1.amazonaws.com",
+    "apiId": "n77revptog"
+  },
+  "body": "{\"account\":{\"account_id\":\"56ba5876-c2d2-4fb7-ace3-0261200ffcd6\",\"currency\":\"1INCH\",\"source_currency\":\"USD\",\"default_buy\":0.000016,\"long_term_periods\":40,\"short_term_periods\":10}}",
+  "isBase64Encoded": false
+}
