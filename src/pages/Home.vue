@@ -1,7 +1,12 @@
 <template>
   <div class="Home mb-5">
-    <div class="row offset-sm-10 col-sm-2">
-      <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id" text-field="currency"></b-form-select>
+    <div class="row">
+      <div class="col-sm-2">
+        <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id" text-field="currency"></b-form-select>
+      </div>
+      <div class="offset-sm-7 col-sm-3">
+        <h3 v-if="activeCbpAccount !== undefined">Account Balance(USD): {{ activeCbpAccount.usd-balance | currency }}</h3>
+      </div>
     </div>
 
 
@@ -65,6 +70,7 @@ export default {
       accounts: undefined,
       cbpAccounts: undefined,
       activeAccountId: undefined,
+      activeCbpAccount: undefined,
       transactions: undefined,
       botDecisions: undefined,
       dataLoading: false,
@@ -133,6 +139,13 @@ export default {
               }
           )
     },
+    getCBPAccount() {
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-account/' + this.activeAccountId, this.getRequestData())
+          .then(response => {
+                this.activeCbpAccount = response.data.data;
+              }
+          )
+    },
     getRequestData() {
       const token = this.currentUser.signInUserSession.idToken.jwtToken
       return {
@@ -156,6 +169,7 @@ export default {
     },
     activeAccountId: function () {
       this.getGraph();
+      this.getCBPAccount();
     }
   },
   beforeDestroy() {

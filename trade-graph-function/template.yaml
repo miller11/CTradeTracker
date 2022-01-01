@@ -131,6 +131,34 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
+  CBPGetAccountFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: function_code/cbp_get_account/
+      Handler: cbpGetAccount.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - DynamoDBCrudPolicy:
+            TableName: 'trader-account'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameters
+                - ssm:GetParameter
+              Resource:
+                - 'arn:aws:ssm:us-east-1:130240313905:parameter/ic-miller/trader-bot/*'
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /cbp-account/{id}
+            Method: get
+            RestApiId: {Ref: TradeTrackerApi }
+            Auth:
+              Authorizer: CognitoAuthorizer
+
   CBPAddAccountFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
