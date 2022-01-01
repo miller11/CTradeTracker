@@ -26,7 +26,7 @@ def lambda_handler(event, context):
     account = auth_client.get_account(account_id)
     currency_price = auth_client.get_product_ticker(account['currency'] + '-USD')['price']
 
-    account['usd-balance'] = float(account['balance']) * float(currency_price)
+    account['usd_balance'] = float(account['balance']) * float(currency_price)
 
     return {
         "statusCode": 200,

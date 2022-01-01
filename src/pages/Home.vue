@@ -4,8 +4,8 @@
       <div class="col-sm-2">
         <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id" text-field="currency"></b-form-select>
       </div>
-      <div class="offset-sm-7 col-sm-3">
-        <h3 v-if="activeCbpAccount !== undefined">Account Balance(USD): {{ activeCbpAccount.usd-balance | currency }}</h3>
+      <div class="offset-sm-6 col-sm-4">
+        <h4 class="mt-1" v-if="activeCbpAccount !== undefined">Account Balance(USD): {{ activeCbpAccount.usd_balance | currency }}</h4>
       </div>
     </div>
 
