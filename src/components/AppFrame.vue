@@ -10,13 +10,14 @@
           <b-collapse id="nav-collapse" v-if="isSignedIn" is-nav>
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
+              <b-nav-item @click="$router.push({name: 'home'})">Trades</b-nav-item>
 
               <b-nav-item-dropdown right>
                 <!-- Using 'button-content' slot -->
                 <template #button-content>
                   <em>{{ currentUser.attributes.email }}</em>
                 </template>
-                <b-dropdown-item><router-link :to="{name: 'accounts'}">Manage Accounts</router-link></b-dropdown-item>
+                <b-dropdown-item @click="$router.push({name: 'accounts'})">Manage Accounts</b-dropdown-item>
                 <b-dropdown-item @click="appSignOut()">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
