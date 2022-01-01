@@ -129,9 +129,7 @@ export default {
       this.accountToAdd = undefined;
     },
     removeAccount(account_id) {
-      alert(account_id)
-
-      axios.delete('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + this.accountToAdd.account_id, this.getRequestData())
+      axios.delete('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + account_id, this.getRequestData())
           .then(response => {
                 if (response) {
                   this.loadAccounts();
@@ -143,7 +141,7 @@ export default {
   },
   computed: {
     filteredAccounts() {
-      if(this.allAccounts === undefined) {
+      if(this.allAccounts === undefined || this.managedAccounts === undefined) {
         return []
       }
 
