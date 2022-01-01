@@ -46,7 +46,7 @@
       </form>
 
     <h3>Available Accounts</h3>
-    <b-table striped small hover :items="allAccounts" :fields="all_accounts_fields" sort-by="timestamp" sort-desc>
+    <b-table striped small hover :items="filteredAccounts" :fields="all_accounts_fields" sort-by="timestamp" sort-desc>
       <template #cell(add)="data">
         <b-button variant="success" size="sm" @click="addAccount(data.item.id, data.item.currency)">Add</b-button>
       </template>
@@ -73,20 +73,8 @@ export default {
       all_accounts_fields
     }
   },
-  mounted() {
-    if ( this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts', this.getRequestData())
-          .then(response => {
-                this.allAccounts = response.data.data;
-              }
-          )
-
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', this.getRequestData())
-          .then(response => {
-                this.managedAccounts = response.data.data
-              }
-          )
-    }
+  created() {
+    this.loadAccounts();
   },
   methods: {
     getRequestData() {
@@ -95,6 +83,21 @@ export default {
         headers: {
           Authorization: token
         }
+      }
+    },
+    loadAccounts() {
+      if ( this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
+        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts', this.getRequestData())
+            .then(response => {
+                  this.allAccounts = response.data.data;
+                }
+            )
+
+        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', this.getRequestData())
+            .then(response => {
+                  this.managedAccounts = response.data.data
+                }
+            )
       }
     },
     addAccount(account_id, currency) {
@@ -116,6 +119,7 @@ export default {
       axios.post('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + this.accountToAdd.account_id, data,  this.getRequestData())
           .then(response => {
                 if (response) {
+                  this.loadAccounts();
                   alert('Account has been added')
                 }
               }
@@ -126,9 +130,29 @@ export default {
     },
     removeAccount(account_id) {
       alert(account_id)
+
+      axios.delete('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + this.accountToAdd.account_id, this.getRequestData())
+          .then(response => {
+                if (response) {
+                  this.loadAccounts();
+                  alert('Account has been removed')
+                }
+              }
+          )
     }
   },
   computed: {
+    filteredAccounts() {
+      if(this.allAccounts === undefined) {
+        return []
+      }
+
+      let idArray = this.managedAccounts.map(a => a.account_id)
+
+      return this.allAccounts.filter(function isEven(account) {
+        return !idArray.includes(account.id);
+      });
+    },
     currentUser() {
       return this.$store.getters.currentUser
     },
