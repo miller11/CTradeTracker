@@ -34,7 +34,11 @@
         <div class="row" v-if="transactions !== undefined">
           <div class="col-12">
             <h3>Transactions</h3>
-            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc></b-table>
+            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc>
+              <template #cell(amount_usd)="data">
+                {{ (data.item.amount * data.item.price) | currency }}
+              </template>
+            </b-table>
           </div>
         </div>
 
@@ -59,7 +63,7 @@ const NavTab = {
   GAIN_LOSS: 1
 }
 
-const transactions_fields = ['date', 'operation', 'amount', 'price']
+const transactions_fields = ['date', 'operation', 'amount', 'amount_usd', 'price']
 const bot_decision_fields = ['timestamp', 'decision', 'reason']
 
 export default {
@@ -80,7 +84,7 @@ export default {
       bot_decision_fields
     }
   },
-  mounted() {
+  created() {
     this.manageAccounts();
   },
   methods: {
