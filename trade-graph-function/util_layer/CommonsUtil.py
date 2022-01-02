@@ -1,4 +1,5 @@
 from boto3.dynamodb.conditions import Key
+import cbpro
 from datetime import datetime, timedelta
 import os
 import boto3
@@ -43,9 +44,12 @@ class CommonsUtil:
         return ssm.get_parameter(Name=param_path, WithDecryption=True)['Parameter']['Value']
 
     @staticmethod
-    def get_cb_client():
-        # todo this won't work in AWS
-        return None
+    def get_cbp_client():
+        access_key = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-key')
+        b64secret = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-secret')
+        passphrase = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-passphrase')
+
+        return cbpro.AuthenticatedClient(access_key, b64secret, passphrase)
 
     @staticmethod
     def get_dynamo_table(table_name):
@@ -90,6 +94,16 @@ class CommonsUtil:
                 return True
 
         return False
+
+    @staticmethod
+    def error_message_response(error_message):
+        return {
+            "statusCode": 404,
+            "headers": CommonsUtil.HEADERS,
+            "body": json.dumps({
+                "message": error_message
+            }),
+        }
 
 
 class AccountUtil:

@@ -15,13 +15,19 @@ def lambda_handler(event, context):
 
     if account_identifier is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
-        return CommonsUtil.NO_ACCOUNT_RESPONSE
+        return CommonsUtil.error_message_response("No account_id query string param was passed")
 
         # Make sure user_id is passed and is authorized for the account
     try:
         user_id = event['requestContext']['authorizer']['claims']['cognito:username']
     except AttributeError:
         user_id = None
+
+    # Make sure user owns the account
+    cbp_account = CommonsUtil.get_cbp_client().get_account(account_identifier)
+    if cbp_account is None:
+        print(f"ERROR: user {user_id} tried to add account {account_identifier} that they did not own.")
+        return CommonsUtil.UNAUTHORIZED_RESPONSE
 
     # Check to make sure that the body is passed
     try:
@@ -33,7 +39,7 @@ def lambda_handler(event, context):
 
     if new_account is None:
         print("ERROR: no body with new account passed " + event['body'])
-        return CommonsUtil.NO_ACCOUNT_RESPONSE
+        return CommonsUtil.error_message_response("Message body did not contain a new account")
 
     # Save the new account
     table = CommonsUtil.get_dynamo_table(CommonsUtil.ACCOUNT_TABLE)

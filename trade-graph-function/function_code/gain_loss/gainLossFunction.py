@@ -39,7 +39,7 @@ def handler(event, context):
 
     if account_identifier is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
-        return CommonsUtil.NO_ACCOUNT_RESPONSE
+        return CommonsUtil.error_message_response("No account_id query string param was passed")
 
     # Make sure user_id is passed and is authorized for the account
     try:

@@ -14,7 +14,7 @@ def lambda_handler(event, context):
 
     if account_id is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
-        return CommonsUtil.NO_ACCOUNT_RESPONSE
+        return CommonsUtil.error_message_response("No account_id query string param was passed")
 
     # todo Need to do some handling here. Look-up profile for user. String format the user access key
     access_key = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-key')

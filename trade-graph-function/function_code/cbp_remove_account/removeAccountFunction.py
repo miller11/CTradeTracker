@@ -15,13 +15,18 @@ def lambda_handler(event, context):
 
     if account_identifier is None:
         print("ERROR: no query string param passed " + event['pathParameters'])
-        return CommonsUtil.NO_ACCOUNT_RESPONSE
+        return CommonsUtil.error_message_response("No account_id query string param was passed")
 
-        # Make sure user_id is passed and is authorized for the account
+    # Make sure user_id is passed and is authorized for the account
     try:
         user_id = event['requestContext']['authorizer']['claims']['cognito:username']
     except AttributeError:
         user_id = None
+
+    # Check authorized
+    if user_id is None or not CommonsUtil.is_authorized_account(user_id, account_identifier):
+        print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
+        return CommonsUtil.UNAUTHORIZED_RESPONSE
 
     # Delete the item passed
     table = CommonsUtil.get_dynamo_table(CommonsUtil.ACCOUNT_TABLE)
