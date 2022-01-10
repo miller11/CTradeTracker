@@ -1,6 +1,6 @@
 {
   "resource": "/trade-graph/{account-id}",
-  "path": "/trade-graph/bec75c28-d95a-52a9-8edf-d0947a133eda",
+  "path": "/trade-graph/9d4c610e-49c1-4529-9d96-810b3b8fc955",
   "httpMethod": "GET",
   "headers": {
     "Accept": "application/json, text/plain, */*",
@@ -125,7 +125,7 @@
   "queryStringParameters": null,
   "multiValueQueryStringParameters": null,
   "pathParameters": {
-    "account-id": "bec75c28-d95a-52a9-8edf-d0947a133eda"
+    "account-id": "9d4c610e-49c1-4529-9d96-810b3b8fc955"
   },
   "stageVariables": null,
   "requestContext": {

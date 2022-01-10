@@ -7,17 +7,17 @@ from CommonsUtil import *
 
 
 QUERY_STRING = """  SELECT time, measure_value::double as {}
-                        FROM "account-tracker"."account" 
+                        FROM "account-tracker"."cbp-account" 
                         WHERE time between ago(14d) and now() 
-                        AND type = 'account'
+                        AND account_id = '{}'
                         and measure_name = '{}'
                         ORDER BY time DESC """
 
 
-def get_df():
-    b_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('balance', 'balance')))
-    g_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('gain', 'gain')))
-    i_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('investment', 'investment')))
+def get_df(account_id):
+    b_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('balance', account_id, 'balance')))
+    g_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('gain', account_id, 'gain')))
+    i_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('investment', account_id, 'investment')))
 
     t_df = pd.concat([b_df.set_index('time'), g_df.set_index('time'),  i_df.set_index('time')], axis=1, join='inner')
 
@@ -52,8 +52,7 @@ def handler(event, context):
         print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
         return CommonsUtil.UNAUTHORIZED_RESPONSE
 
-
-    df = get_df()
+    df = get_df(account_identifier)
     fig = go.Figure()  # declare figure
 
     fig.add_trace(go.Scatter(x=df.index, y=df['balance'], line=dict(color='blue', width=1.5), name='balance'))

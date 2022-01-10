@@ -84,7 +84,7 @@ export default {
       bot_decision_fields
     }
   },
-  created() {
+  mounted() {
     this.manageAccounts();
   },
   methods: {

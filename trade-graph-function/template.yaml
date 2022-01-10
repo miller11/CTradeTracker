@@ -265,16 +265,28 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
-Outputs:
+#Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
 #  # Find out more about other implicit resources you can reference within SAM
 #  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
 #  HelloWorldApi:
 #    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
 #    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  LibLayerFunction:
-    Description: "Lambda Layer that contains common CBP libraries"
-    Value: LibLayer
-  UtilLayerFunction:
-    Description: "Lambda Layer that contains common utilities for CBP project"
-    Value: UtilLayer
+
+####################################################################################################################
+#
+# Outputs
+#
+####################################################################################################################
+
+
+Outputs:
+  LibLayerArn:
+    Value: !Ref LibLayer
+    Export:
+      Name: Lib-Layer-Arn
+  UtilLayerArn:
+    Value: !Ref UtilLayer
+    Export:
+      Name: Util-Layer-Arn
+
