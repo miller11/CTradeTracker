@@ -265,6 +265,34 @@ Resources:
             Auth:
               Authorizer: CognitoAuthorizer
 
+  CBPSaveApiKeyFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: function_code/save_api_key/
+      Handler: saveKeyFunction.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - AWSLambdaExecute
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameters
+                - ssm:GetParameter
+                - ssm:PutParameter
+                - ssm:DeleteParameter
+              Resource:
+                - 'arn:aws:ssm:us-east-1:130240313905:parameter/ic-miller/trader-bot/*'
+      Events:
+        TradeGraph:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /cbp-accounts/{account-id}
+            Method: post
+            RestApiId: {Ref: TradeTrackerApi }
+            Auth:
+              Authorizer: CognitoAuthorizer
+
 #Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
 #  # Find out more about other implicit resources you can reference within SAM
