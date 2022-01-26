@@ -1,6 +1,11 @@
 <template>
   <div class="APIKey">
     <h3>Add API Key</h3>
+    <h4 v-if="keySaved" class="text-primary">Key Currently on file</h4>
+
+    <hr/>
+
+
 
     <form @submit="onSubmit">
 
@@ -38,10 +43,14 @@ export default {
   name: "APIKey",
   data() {
     return {
+      keySaved: false,
       accessKey: undefined,
       passphrase: undefined,
       secret: undefined
     }
+  },
+  created() {
+    this.getKeyStatus();
   },
   methods: {
     onSubmit(event) {
@@ -56,10 +65,33 @@ export default {
                 if (response) {
                   this.loadAccounts();
 
-                  alert('API Key has been added')
+                  alert(response.data.data)
                 }
               }
           )
+    },
+    getKeyStatus() {
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts', this.getRequestData())
+          .then(response => {
+                this.keySaved = response.data.data.keySaved;
+              }
+          )
+    },
+    getRequestData() {
+      const token = this.currentUser.signInUserSession.idToken.jwtToken
+      return {
+        headers: {
+          Authorization: token
+        }
+      }
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.getters.currentUser
+    },
+    authState() {
+      return this.$store.getters.authState
     }
   }
 }

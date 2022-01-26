@@ -28,6 +28,6 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "headers": CommonsUtil.HEADERS,
         "body": json.dumps({
-            "data": {'key_saved': key_saved}
+            "data": {'keySaved': key_saved}
         }),
     }
