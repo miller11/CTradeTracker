@@ -44,10 +44,10 @@ class CommonsUtil:
         return ssm.get_parameter(Name=param_path, WithDecryption=True)['Parameter']['Value']
 
     @staticmethod
-    def get_cbp_client():
-        access_key = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-key')
-        b64secret = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-secret')
-        passphrase = CommonsUtil.get_ssm_param('/ic-miller/trader-bot/ross/cb-access-passphrase')
+    def get_cbp_client(user_id):
+        access_key = CommonsUtil.get_ssm_param(f'/ic-miller/trader-bot/{user_id}/cb-access-key')
+        b64secret = CommonsUtil.get_ssm_param(f'/ic-miller/trader-bot/{user_id}/cb-access-secret')
+        passphrase = CommonsUtil.get_ssm_param(f'/ic-miller/trader-bot/{user_id}/cb-access-passphrase')
 
         return cbpro.AuthenticatedClient(access_key, b64secret, passphrase)
 

@@ -14,7 +14,8 @@ def lambda_handler(event, context):
     try:
         user_id = event['requestContext']['authorizer']['claims']['cognito:username']
     except AttributeError:
-        user_id = None
+        print("ERROR: user not authenticated ")
+        return CommonsUtil.error_message_response("User not authenticated")
 
     client = boto3.client('ssm')  # Establish the ssm client
 
