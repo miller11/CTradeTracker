@@ -1,11 +1,12 @@
 <template>
   <div class="APIKey">
     <h3>Add API Key</h3>
-    <h4 v-if="keySaved" class="text-primary">Key Currently on file</h4>
 
     <hr/>
 
-
+    <div v-if="keySaved" class="alert alert-primary" role="alert">
+      API Key Currently on file
+    </div>
 
     <form @submit="onSubmit">
 
@@ -49,7 +50,7 @@ export default {
       secret: undefined
     }
   },
-  created() {
+  mounted() {
     this.getKeyStatus();
   },
   methods: {
@@ -63,15 +64,14 @@ export default {
       axios.post('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/api-key', data,  this.getRequestData())
           .then(response => {
                 if (response) {
-                  this.loadAccounts();
-
+                  this.getKeyStatus()
                   alert(response.data.data)
                 }
               }
           )
     },
     getKeyStatus() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts', this.getRequestData())
+      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/api-key', this.getRequestData())
           .then(response => {
                 this.keySaved = response.data.data.keySaved;
               }

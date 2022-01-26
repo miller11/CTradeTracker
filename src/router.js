@@ -31,7 +31,7 @@ const router = new Router({
         {
             path: '/api-key',
             component: APIKey,
-            name: 'api-key',
+            name: 'apikey',
             meta: {
                 title: 'API Key'
             }

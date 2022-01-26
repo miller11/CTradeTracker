@@ -18,6 +18,7 @@
                   <em>{{ currentUser.attributes.email }}</em>
                 </template>
                 <b-dropdown-item @click="$router.push({name: 'accounts'})">Manage Accounts</b-dropdown-item>
+                <b-dropdown-item @click="$router.push({name: 'apikey'})">Manage API Key</b-dropdown-item>
                 <b-dropdown-item @click="appSignOut()">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
