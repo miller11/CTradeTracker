@@ -181,6 +181,6 @@
     "domainName": "n77revptog.execute-api.us-east-1.amazonaws.com",
     "apiId": "n77revptog"
   },
-  "body": "{\n  \"access-key\": \"457ad42b-cc52-4aaa-980f-2fa22f506b31\",\n  \"passphrase\": \"e416e3a2-d96a-4ad0-92ef-a886dada9eb7\",\n  \"secret\": \"9b4cba42-2959-447b-9dd6-3ac366812e27\"\n}",
+  "body": "{\n  \"accessKey\": \"457ad42b-cc52-4aaa-980f-2fa22f506b31\",\n  \"passphrase\": \"e416e3a2-d96a-4ad0-92ef-a886dada9eb7\",\n  \"secret\": \"9b4cba42-2959-447b-9dd6-3ac366812e27\"\n}",
   "isBase64Encoded": false
 }

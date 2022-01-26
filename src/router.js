@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Home from './pages/Home';
 import Accounts from './pages/Accounts';
+import APIKey from "./pages/APIKey";
 
 
 Vue.use(Router);
@@ -25,6 +26,14 @@ const router = new Router({
             name: 'accounts',
             meta: {
                 title: 'Accounts'
+            }
+        },
+        {
+            path: '/api-key',
+            component: APIKey,
+            name: 'api-key',
+            meta: {
+                title: 'API Key'
             }
         }
     ]

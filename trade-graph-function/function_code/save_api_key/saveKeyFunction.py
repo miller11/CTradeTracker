@@ -21,7 +21,7 @@ def lambda_handler(event, context):
     # Check to make sure that the body is passed
     try:
         body = json.loads(event['body'])
-        put_param(client, f"/ic-miller/trader-bot/{user_id}/cb-access-key", body['access-key'])
+        put_param(client, f"/ic-miller/trader-bot/{user_id}/cb-access-key", body['accessKey'])
         put_param(client, f"/ic-miller/trader-bot/{user_id}/cb-access-passphrase", body['passphrase'])
         put_param(client, f"/ic-miller/trader-bot/{user_id}/cb-access-secret", body['secret'])
     except AttributeError:
