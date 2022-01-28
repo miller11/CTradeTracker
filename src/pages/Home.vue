@@ -54,7 +54,7 @@
 
 
 <script>
-import axios from 'axios'
+import ApiClient from '../../jsUtil/APIClient';
 
 import Plotly from 'plotly.js-dist'
 
@@ -93,7 +93,7 @@ export default {
         let self = this;
 
         // load accounts and set default
-        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', this.getRequestData())
+        new ApiClient().getAccounts()
             .then(response => {
                   self.accounts = response.data.data
 
@@ -110,18 +110,18 @@ export default {
     },
     getGraph() {
       this.dataLoading = true
-      let url_extension = 'account-graph/'
+      let axiosCall = new ApiClient().getAccountGraph(this.activeAccountId);
 
       if (this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getTransactions(); // get transactions for the trade graph table
-        url_extension = 'trade-graph/'
+        axiosCall = new ApiClient().getTradeGraph(this.activeAccountId);
         this.botDecisions = undefined;
       } else {
         this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
         this.getBotDecisions();
       }
 
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/' + url_extension + this.activeAccountId, this.getRequestData())
+        axiosCall
           .then(response => {
                 this.dataLoading = false
                 const figure = JSON.parse(response.data.message);
@@ -130,33 +130,25 @@ export default {
           )
     },
     getTransactions() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/transactions/' + this.activeAccountId, this.getRequestData())
+      new ApiClient().getTransactions(this.activeAccountId)
           .then(response => {
                 this.transactions = response.data.data;
               }
           )
     },
     getBotDecisions() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/bot-decisions/' + this.activeAccountId, this.getRequestData())
+      new ApiClient().getBotDecisions(this.activeAccountId)
           .then(response => {
                 this.botDecisions = response.data.data;
               }
           )
     },
     getCBPAccount() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-account/' + this.activeAccountId, this.getRequestData())
+      new ApiClient().getCBPAccount(this.activeAccountId)
           .then(response => {
                 this.activeCbpAccount = response.data.data;
               }
           )
-    },
-    getRequestData() {
-      const token = this.currentUser.signInUserSession.idToken.jwtToken
-      return {
-        headers: {
-          Authorization: token
-        }
-      }
     }
   },
   computed: {

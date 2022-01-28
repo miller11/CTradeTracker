@@ -56,7 +56,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import ApiClient from '../../jsUtil/APIClient';
+import APIClient from "../../jsUtil/APIClient";
+
 
 const managed_accounts_fields = ['currency', 'source_currency', 'default_buy', 'long_term_periods', 'short_term_periods', 'remove']
 const all_accounts_fields = ['currency', 'balance', 'trading_enabled', 'add']
@@ -77,27 +79,15 @@ export default {
     this.loadAccounts();
   },
   methods: {
-    getRequestData() {
-      const token = this.currentUser.signInUserSession.idToken.jwtToken
-      return {
-        headers: {
-          Authorization: token
-        }
-      }
-    },
     loadAccounts() {
-      if ( this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
-        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts', this.getRequestData())
-            .then(response => {
-                  this.allAccounts = response.data.data;
-                }
-            )
+      const apiClient = new ApiClient();
 
-        axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/accounts', this.getRequestData())
-            .then(response => {
-                  this.managedAccounts = response.data.data
-                }
-            )
+      if ( this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
+        apiClient.all([apiClient.getCBPAccounts(), apiClient.getAccounts()])
+            .then(apiClient.spread((cbpAccounts, accounts) => {
+              this.allAccounts = cbpAccounts.data.data;
+              this.managedAccounts = accounts.data.data
+            }))
       }
     },
     addAccount(account_id, currency) {
@@ -116,7 +106,7 @@ export default {
 
       let data = {account : this.accountToAdd}
 
-      axios.post('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + this.accountToAdd.account_id, data,  this.getRequestData())
+      new APIClient().addCBPAccount(this.accountToAdd.account_id, data)
           .then(response => {
                 if (response) {
                   this.loadAccounts();
@@ -129,7 +119,7 @@ export default {
       this.accountToAdd = undefined;
     },
     removeAccount(account_id) {
-      axios.delete('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/cbp-accounts/' + account_id, this.getRequestData())
+      new APIClient().removeCBPAccount(account_id)
           .then(response => {
                 if (response) {
                   this.loadAccounts();

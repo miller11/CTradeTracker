@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import ApiClient from '../../jsUtil/APIClient';
 
 export default {
   name: "APIKey",
@@ -61,7 +61,7 @@ export default {
                   passphrase : this.passphrase,
                   secret : this.secret}
 
-      axios.post('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/api-key', data,  this.getRequestData())
+      new ApiClient().setAPIKey(data)
           .then(response => {
                 if (response) {
                   this.getKeyStatus()
@@ -71,30 +71,14 @@ export default {
           )
     },
     getKeyStatus() {
-      axios.get('https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/api-key', this.getRequestData())
+      new ApiClient().getAPIKeyStatus()
           .then(response => {
-                this.keySaved = response.data.data.keySaved;
-              }
-          )
-    },
-    getRequestData() {
-      const token = this.currentUser.signInUserSession.idToken.jwtToken
-      return {
-        headers: {
-          Authorization: token
-        }
-      }
-    }
-  },
-  computed: {
-    currentUser() {
-      return this.$store.getters.currentUser
-    },
-    authState() {
-      return this.$store.getters.authState
+            this.keySaved  = response.data.data.keySaved;
+          })
     }
   }
 }
+
 </script>
 
 <style scoped>
