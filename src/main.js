@@ -8,6 +8,7 @@ import Amplify from "aws-amplify";
 import awsconfig from "./aws-exports";
 import {store} from "./store/store";
 import Vue2Filters from 'vue2-filters'
+import Notifications from 'vue-notification'
 
 
 Amplify.configure(awsconfig);
@@ -27,6 +28,8 @@ Vue.use(IconsPlugin)
 Vue.use(Vuex)
 
 Vue.use(Vue2Filters)
+
+Vue.use(Notifications)
 
 new Vue({
   store,

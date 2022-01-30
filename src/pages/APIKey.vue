@@ -13,19 +13,19 @@
       <div class="form-group row">
         <label for="fm-accessKey" class="col-2 col-form-label">Access Key</label>
         <div class="col-5">
-          <input id="fm-accessKey" name="fm-source-currency" v-model="accessKey"  type="text" class="form-control">
+          <input id="fm-accessKey" name="fm-source-currency" v-model="accessKey" type="text" class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="fm-passphrase" class="col-2 col-form-label">Passphrase</label>
         <div class="col-5">
-          <input id="fm-passphrase" name="fm-source-currency" v-model="passphrase"  type="password" class="form-control">
+          <input id="fm-passphrase" name="fm-source-currency" v-model="passphrase" type="password" class="form-control">
         </div>
       </div>
       <div class="form-group row">
         <label for="fm-secret" class="col-2 col-form-label">Secret</label>
         <div class="col-5">
-          <input id="fm-secret" name="fm-source-currency" v-model="secret"  type="password" class="form-control">
+          <input id="fm-secret" name="fm-source-currency" v-model="secret" type="password" class="form-control">
         </div>
       </div>
       <div class="form-group row">
@@ -57,24 +57,32 @@ export default {
     onSubmit(event) {
       event.preventDefault();
 
-      let data = {accessKey : this.accessKey,
-                  passphrase : this.passphrase,
-                  secret : this.secret}
+      let data = {
+        accessKey: this.accessKey,
+        passphrase: this.passphrase,
+        secret: this.secret
+      }
 
       new ApiClient().setAPIKey(data)
           .then(response => {
                 if (response) {
                   this.getKeyStatus()
-                  alert(response.data.data)
+
+                  this.$notify({
+                    group: 'default',
+                    title: 'Save Response',
+                    position: 'bottom right',
+                    text: response.data.data
+                  });
                 }
               }
-          )
+          );
     },
     getKeyStatus() {
       new ApiClient().getAPIKeyStatus()
           .then(response => {
-            this.keySaved  = response.data.data.keySaved;
-          })
+            this.keySaved = response.data.data.keySaved;
+          });
     }
   }
 }

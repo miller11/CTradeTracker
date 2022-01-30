@@ -2,6 +2,8 @@
   <div id="app">
     <app-frame>
       <router-view />
+      
+      <notifications group="default" />
     </app-frame>
 
   </div>

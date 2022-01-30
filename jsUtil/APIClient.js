@@ -1,19 +1,39 @@
 import axios from 'axios';
 import {store} from '@/store/store'
+import Vue from 'vue'
 
-const BASE_URL = 'https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/';
+
 
 class ApiClient {
-    getJWTToken() {
-        return store.getters.currentUser.signInUserSession.idToken.jwtToken;
-    }
+    constructor() {
+        let jwt = ''
 
-    authHeaders() {
-        return {
-            headers: {
-                Authorization: this.getJWTToken()
-            }
+        if(store.getters.currentUser !== undefined) {
+            jwt = store.getters.currentUser.signInUserSession.idToken.jwtToken
         }
+
+        this.api = axios.create({
+            baseURL: 'https://n77revptog.execute-api.us-east-1.amazonaws.com/Test/',
+            timeout: 60000,
+            headers: {'Authorization': jwt}
+        });
+
+        this.api.interceptors.response.use((response) => response, (error) => {
+            console.log(error)
+            let message = 'An Error occurred.'
+
+            if(error.response !== undefined && error.response.data !== undefined) {
+                message = error.response.data
+            }
+
+            Vue.notify({
+                group: 'default',
+                position: 'bottom right',
+                type: 'error',
+                title: 'Error!',
+                text: message
+            })
+        });
     }
 
     // wrapper for axios.all()
@@ -27,47 +47,47 @@ class ApiClient {
     }
 
     setAPIKey(data) {
-        return axios.post(BASE_URL + 'api-key', data,  this.authHeaders());
+        return this.api.post('api-key/', data);
     }
 
     getAPIKeyStatus() {
-        return axios.get(BASE_URL + 'api-key', this.authHeaders())
+        return this.api.get('api-key/')
     }
 
     getAccounts() {
-        return axios.get(BASE_URL + 'accounts', this.authHeaders())
+        return this.api.get('accounts/')
     }
 
     getAccountGraph(accountId) {
-        return axios.get(BASE_URL + 'account-graph/' + accountId, this.authHeaders())
+        return this.api.get('account-graph/' + accountId)
     }
 
     getTradeGraph(accountId) {
-        return axios.get(BASE_URL + 'trade-graph/' + accountId, this.authHeaders())
+        return this.api.get('trade-graph/' + accountId)
     }
 
     getTransactions(accountId) {
-        return axios.get(BASE_URL + 'transactions/' + accountId, this.authHeaders())
+        return this.api.get('transactions/' + accountId)
     }
 
     getBotDecisions(accountId) {
-        return axios.get(BASE_URL + 'bot-decisions/' + accountId, this.authHeaders())
+        return this.api.get('bot-decisions/' + accountId)
     }
 
     getCBPAccount(accountId) {
-        return axios.get(BASE_URL + 'cbp-account/' + accountId, this.authHeaders())
+        return this.api.get('cbp-account/' + accountId)
     }
 
     getCBPAccounts() {
-        return axios.get(BASE_URL + 'cbp-accounts/', this.authHeaders())
+        return this.api.get('cbp-accounts/')
     }
 
     addCBPAccount(account_id, data) {
-        return axios.post(BASE_URL + 'cbp-accounts/' + account_id, data, this.authHeaders());
+        return this.api.post('cbp-accounts/' + account_id, data);
     }
 
     removeCBPAccount(account_id) {
-        return axios.delete(BASE_URL + 'cbp-accounts/' + account_id, this.authHeaders());
+        return this.api.delete('cbp-accounts/' + account_id);
     }
 }
 
