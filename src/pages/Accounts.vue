@@ -46,7 +46,30 @@
       </form>
 
     <h3>Available Accounts</h3>
-    <b-table striped small hover :items="filteredAccounts" :fields="all_accounts_fields" sort-by="timestamp" sort-desc>
+    <b-col lg="6" class="my-1">
+      <b-form-group
+          label="Filter"
+          label-for="filter-input"
+          label-cols-sm="1"
+          label-align-sm="right"
+          label-size="sm"
+          class="mb-0"
+      >
+        <b-input-group size="sm">
+          <b-form-input
+              id="filter-input"
+              v-model="filter"
+              type="search"
+              placeholder="Type to Search"
+          ></b-form-input>
+
+          <b-input-group-append>
+            <b-button :disabled="!filter" @click="filter = null">Clear</b-button>
+          </b-input-group-append>
+        </b-input-group>
+      </b-form-group>
+    </b-col>
+    <b-table striped small hover :items="filteredAccounts" :filter="filter" :fields="all_accounts_fields" sort-by="timestamp" sort-desc>
       <template #cell(add)="data">
         <b-button variant="success" size="sm" @click="addAccount(data.item.id, data.item.currency)">Add</b-button>
       </template>
@@ -71,6 +94,7 @@ export default {
       allAccounts: undefined,
       accountToAdd: undefined,
       showForm: false,
+      filter: null,
       managed_accounts_fields,
       all_accounts_fields
     }
@@ -135,10 +159,11 @@ export default {
         return []
       }
 
-      let idArray = this.managedAccounts.map(a => a.account_id)
+      let idArray = this.managedAccounts.map(a => a.account_id);
+      let search_filter = this.filter;
 
-      return this.allAccounts.filter(function isEven(account) {
-        return !idArray.includes(account.id);
+      return this.allAccounts.filter(function shouldShow(account) {
+        return !idArray.includes(account.id) && (search_filter === null || account.currency.includes(search_filter.toUpperCase()));
       });
     },
     currentUser() {
