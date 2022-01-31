@@ -6,6 +6,7 @@
       </div>
       <div class="offset-sm-6 col-sm-4">
         <h4 class="mt-1" v-if="activeCbpAccount !== undefined">Account Balance(USD): {{ activeCbpAccount.usd_balance | currency }}</h4>
+        <h5 class="mt-1 text-muted" v-if="activeCbpAccount !== undefined">Current Price(USD): {{ activeCbpAccount.current_price | currency }}</h5>
       </div>
     </div>
 
