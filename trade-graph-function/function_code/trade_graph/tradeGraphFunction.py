@@ -53,11 +53,17 @@ def handler(event, context):
         print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
         return CommonsUtil.UNAUTHORIZED_RESPONSE
 
+    # Check days back
+    try:
+        days_back = int(event['queryStringParameters']['days_back'])
+    except AttributeError:
+        days_back = 14
+
     # Get the account
     account = get_account(account_identifier)
 
     # Get the transactions
-    transactions = CommonsUtil.get_transactions(account_id=account_identifier)
+    transactions = CommonsUtil.get_transactions(account_id=account_identifier, days_back=days_back)
 
     # Importing market data
     data = yf.download(tickers=account['currency'] + '-USD', period=TIME_PERIOD, interval=TIME_INTERVAL)

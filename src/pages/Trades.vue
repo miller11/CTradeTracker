@@ -121,7 +121,7 @@ export default {
     },
     getGraph() {
       this.dataLoading = true
-      let axiosCall = new ApiClient().getAccountGraph(this.activeAccountId, this.dataLoading);
+      let axiosCall = new ApiClient().getAccountGraph(this.activeAccountId, this.daysBack);
 
       if (this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getTransactions(); // get transactions for the trade graph table
