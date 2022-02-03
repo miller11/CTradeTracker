@@ -2,6 +2,7 @@ from boto3.dynamodb.conditions import Key
 import cbpro
 from datetime import datetime, timedelta
 import os
+from decimal import Decimal
 import boto3
 import pytz
 import json
@@ -72,10 +73,11 @@ class CommonsUtil:
     def get_transactions(account_id, days_back=14):
         table = CommonsUtil.get_dynamo_table(CommonsUtil.TRANSACTION_TABLE)
         query_time = datetime.today() - timedelta(days=days_back)
+        query_time = (query_time - datetime.utcfromtimestamp(0)).total_seconds() * 1000.0
 
         response = table.query(
             KeyConditionExpression=Key('account_id').eq(account_id) & Key('timestamp').gt(
-                int(query_time.timestamp()))
+                Decimal(query_time))
         )
 
         transaction_list = response['Items']
