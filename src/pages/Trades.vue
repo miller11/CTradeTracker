@@ -4,6 +4,7 @@
       <div class="col-sm-2">
         <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id"
                        text-field="currency"></b-form-select>
+        <b-spinner v-if="accountsLoading" variant="success" label="Loading"></b-spinner>
       </div>
       <div class="offset-sm-6 col-sm-4">
         <h4 class="mt-1" v-if="activeCbpAccount !== undefined">Account Balance(USD):
@@ -29,6 +30,7 @@
       <div class="row">
         <div class="col-12">
           <div class="col-sm-3 offset-sm-9 mt-2">
+            Days
             <b-button-group size="sm">
               <b-button variant="primary" :pressed="daysBack === 7" @click="daysBack = 7">7</b-button>
               <b-button variant="primary" :pressed="daysBack === 14" @click="daysBack = 14">14</b-button>
@@ -71,6 +73,7 @@
 import ApiClient from '../../jsUtil/APIClient';
 
 import Plotly from 'plotly.js-dist'
+import {store} from "@/store/store";
 
 const NavTab = {
   TRADE_GRAPH: 0,
@@ -85,7 +88,6 @@ export default {
   data() {
     return {
       unsubscribeAuth: undefined,
-      accounts: undefined,
       daysBack: 14,
       cbpAccounts: undefined,
       activeAccountId: undefined,
@@ -93,6 +95,7 @@ export default {
       transactions: undefined,
       botDecisions: undefined,
       dataLoading: false,
+      accountsLoading: false,
       activeNavTab: NavTab.TRADE_GRAPH,
       NavTab,
       transactions_fields,
@@ -102,24 +105,34 @@ export default {
   created() {
     this.manageAccounts();
   },
+  mounted() {
+    this.manageAccounts();
+  },
   methods: {
     manageAccounts() {
+      let loadedAccounts = undefined;
+      this.accountsLoading = true;
+
       if (this.accounts === undefined && this.currentUser !== undefined && this.currentUser.signInUserSession !== undefined) {
         let self = this;
 
         // load accounts and set default
         new ApiClient().getAccounts()
             .then(response => {
-                  self.accounts = response.data.data
+              loadedAccounts = response.data.data
+              store.dispatch('setManagedAccounts', loadedAccounts);
 
-                  if (self.accounts !== undefined && self.accounts.length > 0) {
-                    self.activeAccountId = self.accounts[0].account_id;
+                  if (loadedAccounts !== undefined && loadedAccounts.length > 0) {
+                    self.activeAccountId = loadedAccounts[0].account_id;
                   }
+
+                  self.accountsLoading = false;
                 }
             )
       } else {
         if (this.currentUser === undefined || this.currentUser.signInUserSession === undefined) {
-          this.accounts = undefined
+          store.dispatch('setManagedAccounts', undefined);
+          this.accountsLoading = false;
         }
       }
     },
@@ -172,6 +185,9 @@ export default {
     },
     authState() {
       return this.$store.getters.authState
+    },
+    accounts() {
+      return this.$store.getters.managedAccounts
     }
   },
   watch: {
@@ -185,9 +201,6 @@ export default {
       this.getGraph();
       this.getCBPAccount();
     }
-  },
-  beforeDestroy() {
-    this.accounts = undefined;
   }
 }
 </script>
