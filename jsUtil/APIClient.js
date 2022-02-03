@@ -58,20 +58,20 @@ class ApiClient {
         return this.api.get('accounts/')
     }
 
-    getAccountGraph(accountId) {
-        return this.api.get('account-graph/' + accountId)
+    getAccountGraph(accountId, daysBack = 14) {
+        return this.api.get('account-graph/' + accountId, {params: {days_back: daysBack}})
     }
 
-    getTradeGraph(accountId) {
-        return this.api.get('trade-graph/' + accountId)
+    getTradeGraph(accountId, daysBack = 14) {
+        return this.api.get('trade-graph/' + accountId, {params: {days_back: daysBack}})
     }
 
-    getTransactions(accountId) {
-        return this.api.get('transactions/' + accountId)
+    getTransactions(accountId, daysBack = 14) {
+        return this.api.get('transactions/' + accountId, {params: {days_back: daysBack}})
     }
 
-    getBotDecisions(accountId) {
-        return this.api.get('bot-decisions/' + accountId)
+    getBotDecisions(accountId, daysBack = 14) {
+        return this.api.get('bot-decisions/' + accountId, {params: {days_back: daysBack}})
     }
 
     getCBPAccount(accountId) {

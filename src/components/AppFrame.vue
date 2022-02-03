@@ -53,6 +53,10 @@ export default {
     }
   },
   created() {
+    Auth.currentSession()
+        .then()
+        .catch(err => console.log(err));
+
     this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       store.dispatch('setAuthState', authState);
       store.dispatch('setUser', authData);

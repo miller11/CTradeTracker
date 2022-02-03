@@ -25,6 +25,15 @@
 
         <div class="row">
           <div class="col-12">
+            <div class="col-sm-3 offset-sm-9 mt-2">
+              <b-button-group size="sm">
+                <b-button variant="primary" :pressed="daysBack === 7" @click="daysBack = 7">7</b-button>
+                <b-button variant="primary" :pressed="daysBack === 14" @click="daysBack = 14">14</b-button>
+                <b-button variant="primary" :pressed="daysBack === 30" @click="daysBack = 30">30</b-button>
+                <b-button variant="primary" :pressed="daysBack === 90" @click="daysBack = 90">90</b-button>
+              </b-button-group>
+            </div>
+
             <div v-if="dataLoading" class="row">
               <b-spinner variant="success" label="Loading"></b-spinner>
             </div>
@@ -73,6 +82,7 @@ export default {
     return {
       unsubscribeAuth: undefined,
       accounts: undefined,
+      daysBack: 14,
       cbpAccounts: undefined,
       activeAccountId: undefined,
       activeCbpAccount: undefined,
@@ -85,7 +95,7 @@ export default {
       bot_decision_fields
     }
   },
-  mounted() {
+  created() {
     this.manageAccounts();
   },
   methods: {
@@ -111,11 +121,11 @@ export default {
     },
     getGraph() {
       this.dataLoading = true
-      let axiosCall = new ApiClient().getAccountGraph(this.activeAccountId);
+      let axiosCall = new ApiClient().getAccountGraph(this.activeAccountId, this.dataLoading);
 
       if (this.activeNavTab === NavTab.TRADE_GRAPH) {
         this.getTransactions(); // get transactions for the trade graph table
-        axiosCall = new ApiClient().getTradeGraph(this.activeAccountId);
+        axiosCall = new ApiClient().getTradeGraph(this.activeAccountId, this.daysBack);
         this.botDecisions = undefined;
       } else {
         this.transactions = undefined; // if it's not a trade-graph tab delete them transactions
@@ -131,14 +141,14 @@ export default {
           )
     },
     getTransactions() {
-      new ApiClient().getTransactions(this.activeAccountId)
+      new ApiClient().getTransactions(this.activeAccountId, this.daysBack)
           .then(response => {
                 this.transactions = response.data.data;
               }
           )
     },
     getBotDecisions() {
-      new ApiClient().getBotDecisions(this.activeAccountId)
+      new ApiClient().getBotDecisions(this.activeAccountId, this.daysBack)
           .then(response => {
                 this.botDecisions = response.data.data;
               }

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <amplify-authenticator username-alias="email"></amplify-authenticator>
+    <amplify-auth-container>
+      <amplify-authenticator username-alias="email"></amplify-authenticator>
+    </amplify-auth-container>
   </div>
 </template>
 
@@ -19,7 +21,7 @@ export default {
     this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       store.dispatch('setAuthState', authState);
       store.dispatch('setUser', authData);
-      if(this.isSignedIn){
+      if (this.isSignedIn) {
         this.$router.push({name: 'trades'})
       }
     })
