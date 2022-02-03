@@ -14,7 +14,7 @@ def get_bot_decisions(account_identifier, days_back):
     )
 
     for item in response['Items']:
-        item['timestamp'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(item['timestamp']))
+        item['timestamp'] = time.strftime('%m-%d-%Y %H:%M:%S', time.localtime(item['timestamp'] / 1000))
 
     return response['Items']
 

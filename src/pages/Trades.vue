@@ -2,63 +2,67 @@
   <div class="Home mb-5">
     <div class="row">
       <div class="col-sm-2">
-        <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id" text-field="currency"></b-form-select>
+        <b-form-select v-model="activeAccountId" :options="accounts" value-field="account_id"
+                       text-field="currency"></b-form-select>
       </div>
       <div class="offset-sm-6 col-sm-4">
-        <h4 class="mt-1" v-if="activeCbpAccount !== undefined">Account Balance(USD): {{ activeCbpAccount.usd_balance | currency }}</h4>
-        <h5 class="mt-1 text-muted" v-if="activeCbpAccount !== undefined">Current Price(USD): {{ activeCbpAccount.current_price | currency }}</h5>
+        <h4 class="mt-1" v-if="activeCbpAccount !== undefined">Account Balance(USD):
+          {{ activeCbpAccount.usd_balance | currency }}</h4>
+        <h5 class="mt-1 text-muted" v-if="activeCbpAccount !== undefined">Current Price(USD):
+          {{ activeCbpAccount.current_price | currency }}</h5>
       </div>
     </div>
 
 
-      <div v-if="activeAccountId !== undefined">
-        <ul class="nav nav-tabs mt-3">
-          <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }"
-               @click="activeNavTab = NavTab.TRADE_GRAPH">Trades</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"
-               @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
-          </li>
-        </ul>
+    <div v-if="activeAccountId !== undefined">
+      <ul class="nav nav-tabs mt-3">
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeNavTab === NavTab.TRADE_GRAPH }"
+             @click="activeNavTab = NavTab.TRADE_GRAPH">Trades</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class="{ active: activeNavTab === NavTab.GAIN_LOSS }"
+             @click="activeNavTab = NavTab.GAIN_LOSS">Gain/Loss</a>
+        </li>
+      </ul>
 
-        <div class="row">
-          <div class="col-12">
-            <div class="col-sm-3 offset-sm-9 mt-2">
-              <b-button-group size="sm">
-                <b-button variant="primary" :pressed="daysBack === 7" @click="daysBack = 7">7</b-button>
-                <b-button variant="primary" :pressed="daysBack === 14" @click="daysBack = 14">14</b-button>
-                <b-button variant="primary" :pressed="daysBack === 30" @click="daysBack = 30">30</b-button>
-                <b-button variant="primary" :pressed="daysBack === 90" @click="daysBack = 90">90</b-button>
-              </b-button-group>
-            </div>
-
-            <div v-if="dataLoading" class="row">
-              <b-spinner variant="success" label="Loading"></b-spinner>
-            </div>
-            <div id="graph"></div>
+      <div class="row">
+        <div class="col-12">
+          <div class="col-sm-3 offset-sm-9 mt-2">
+            <b-button-group size="sm">
+              <b-button variant="primary" :pressed="daysBack === 7" @click="daysBack = 7">7</b-button>
+              <b-button variant="primary" :pressed="daysBack === 14" @click="daysBack = 14">14</b-button>
+              <b-button variant="primary" :pressed="daysBack === 30" @click="daysBack = 30">30</b-button>
+              <b-button variant="primary" :pressed="daysBack === 90" @click="daysBack = 90">90</b-button>
+            </b-button-group>
           </div>
-        </div>
 
-        <div class="row" v-if="transactions !== undefined">
-          <div class="col-12">
-            <h3>Transactions</h3>
-            <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc>
-              <template #cell(amount_usd)="data">
-                {{ (data.item.amount * data.item.price) | currency }}
-              </template>
-            </b-table>
+          <div v-if="dataLoading" class="row">
+            <b-spinner variant="success" label="Loading"></b-spinner>
           </div>
-        </div>
-
-        <div class="row" v-if="botDecisions !== undefined">
-          <div class="col-12">
-            <h3>Bot Decisions</h3>
-            <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp" sort-desc></b-table>
-          </div>
+          <div id="graph"></div>
         </div>
       </div>
+
+      <div class="row" v-if="transactions !== undefined">
+        <div class="col-12">
+          <h3>Transactions</h3>
+          <b-table striped hover :items="transactions" :fields="transactions_fields" sort-by="timestamp" sort-desc>
+            <template #cell(amount_usd)="data">
+              {{ (data.item.amount * data.item.price) | currency }}
+            </template>
+          </b-table>
+        </div>
+      </div>
+
+      <div class="row" v-if="botDecisions !== undefined">
+        <div class="col-12">
+          <h3>Bot Decisions</h3>
+          <b-table striped hover :items="botDecisions" :fields="bot_decision_fields" sort-by="timestamp"
+                   sort-desc></b-table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -132,7 +136,7 @@ export default {
         this.getBotDecisions();
       }
 
-        axiosCall
+      axiosCall
           .then(response => {
                 this.dataLoading = false
                 const figure = JSON.parse(response.data.message);
@@ -172,7 +176,10 @@ export default {
   },
   watch: {
     activeNavTab: function () {
-        this.getGraph();
+      this.getGraph();
+    },
+    daysBack: function () {
+      this.getGraph();
     },
     activeAccountId: function () {
       this.getGraph();
