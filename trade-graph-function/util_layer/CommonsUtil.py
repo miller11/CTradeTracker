@@ -7,7 +7,6 @@ import boto3
 import pytz
 import json
 
-
 LONDON_TMZ = pytz.timezone('Europe/London')
 
 
@@ -70,14 +69,19 @@ class CommonsUtil:
         return LONDON_TMZ.localize(datetime.fromtimestamp(epoch_time / 1000)).strftime('%Y-%m-%d %H:%M:%S')
 
     @staticmethod
+    def get_time_since_epoch(days):
+        query_time = datetime.today() - timedelta(days=days)
+        query_time = (query_time - datetime.utcfromtimestamp(0)).total_seconds() * 1000.0
+
+        return Decimal(query_time)
+
+    @staticmethod
     def get_transactions(account_id, days_back=14):
         table = CommonsUtil.get_dynamo_table(CommonsUtil.TRANSACTION_TABLE)
-        query_time = datetime.today() - timedelta(days=days_back)
-        query_time = (query_time - datetime.utcfromtimestamp(0)).total_seconds() * 1000.0
 
         response = table.query(
             KeyConditionExpression=Key('account_id').eq(account_id) & Key('timestamp').gt(
-                Decimal(query_time))
+                CommonsUtil.get_time_since_epoch(days_back))
         )
 
         transaction_list = response['Items']

@@ -8,16 +8,16 @@ from CommonsUtil import *
 
 QUERY_STRING = """  SELECT time, measure_value::double as {}
                         FROM "account-tracker"."cbp-account" 
-                        WHERE time between ago(14d) and now() 
+                        WHERE time between ago({}d) and now() 
                         AND account_id = '{}'
                         and measure_name = '{}'
                         ORDER BY time DESC """
 
 
-def get_df(account_id):
-    b_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('balance', account_id, 'balance')))
-    g_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('gain', account_id, 'gain')))
-    i_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('investment', account_id, 'investment')))
+def get_df(account_id, days_back):
+    b_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('balance', days_back, account_id, 'balance')))
+    g_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('gain', days_back, account_id, 'gain')))
+    i_df = pd.DataFrame(TimeseriesUtil().run_query(QUERY_STRING.format('investment', days_back, account_id, 'investment')))
 
     t_df = pd.concat([b_df.set_index('time'), g_df.set_index('time'),  i_df.set_index('time')], axis=1, join='inner')
 
@@ -52,7 +52,13 @@ def handler(event, context):
         print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
         return CommonsUtil.UNAUTHORIZED_RESPONSE
 
-    df = get_df(account_identifier)
+    # Check days back
+    try:
+        days_back = int(event['queryStringParameters']['days_back'])
+    except AttributeError:
+        days_back = 14
+
+    df = get_df(account_identifier, days_back)
     fig = go.Figure()  # declare figure
 
     fig.add_trace(go.Scatter(x=df.index, y=df['balance'], line=dict(color='blue', width=1.5), name='balance'))

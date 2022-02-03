@@ -26,10 +26,16 @@ def handler(event, context):
         print("ERROR: no authenticated user or unauthorized: " + event['requestContext'])
         return CommonsUtil.UNAUTHORIZED_RESPONSE
 
+    # Check days back
+    try:
+        days_back = int(event['queryStringParameters']['days_back'])
+    except AttributeError:
+        days_back = 14
+
     return {
         "statusCode": 200,
         "headers": CommonsUtil.HEADERS,
         "body": json.dumps({
-            "data": CommonsUtil.get_transactions(account_identifier)
+            "data": CommonsUtil.get_transactions(account_identifier, days_back=days_back)
         }),
     }
