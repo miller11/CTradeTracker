@@ -95,7 +95,7 @@ export default {
       transactions: undefined,
       botDecisions: undefined,
       dataLoading: false,
-      accountsLoading: false,
+      accountsLoading: true,
       activeNavTab: NavTab.TRADE_GRAPH,
       NavTab,
       transactions_fields,
@@ -135,6 +135,8 @@ export default {
           this.accountsLoading = false;
         }
       }
+
+      this.accountsLoading = false;
     },
     getGraph() {
       this.dataLoading = true

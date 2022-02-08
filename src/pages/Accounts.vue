@@ -82,7 +82,6 @@
 import ApiClient from '../../jsUtil/APIClient';
 import APIClient from "../../jsUtil/APIClient";
 
-
 const managed_accounts_fields = ['currency', 'source_currency', 'default_buy', 'long_term_periods', 'short_term_periods', 'remove']
 const all_accounts_fields = ['currency', 'balance', 'trading_enabled', 'add']
 
